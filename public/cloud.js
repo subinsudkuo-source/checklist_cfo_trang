@@ -13,7 +13,7 @@ async function cloudLoad() {
   const data=await cloudApi('load');
   Object.keys(hospitalState).forEach(id=>{ if(data.states[id]) hospitalState[id]=data.states[id]; });
   cloudVersions=data.versions; cloudDirty.clear(); cloudReady=true;
-  cloudOverlay.hidden=true; syncMetaInputs(); renderActiveView(); cloudMessage('เชื่อมต่อ Google Sheets แล้ว');
+  cloudOverlay.hidden=true; syncMetaInputs(); renderActiveView(); cloudMessage('เชื่อมต่อฐานข้อมูลแล้ว');
 }
 function markCloudDirty(id=currentHospitalId) {
   if(!cloudReady) return;

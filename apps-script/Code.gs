@@ -25,7 +25,7 @@ function setup() {
     });
     props.setProperty('FOLDER_IDS',JSON.stringify(folderIds));
     state.hideSheet();
-    const blank=ss.getSheetByName('Sheet1')||ss.getSheetByName('แผ่น1');
+    const blank=ss.getSheetByName('Sheet1')||ss.getSheetByName('แผ่น1')||ss.getSheetByName('ชีต1');
     if(blank && blank.getLastRow()===0 && ss.getSheets().length>1) ss.deleteSheet(blank);
     SpreadsheetApp.flush();
     console.log('ฐานข้อมูล: '+ss.getUrl());

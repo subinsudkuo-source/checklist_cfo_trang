@@ -1,0 +1,2744 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>แบบประเมิน Checklist การกำกับติดตามการบริหารการเงินการคลังของโรงพยาบาล จังหวัดตรัง (10 แห่ง)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f4f6f8;
+      --surface: #ffffff;
+      --surface-alt: #f8fafc;
+      --border: #dce2e8;
+      --border-strong: #cbd5e1;
+      --ink: #0f172a;
+      --ink-secondary: #334155;
+      --muted: #64748b;
+      --brand: #0f5f5c;
+      --brand-hover: #0b4a48;
+      --brand-soft: #e6f4f3;
+      --brand-ink: #ffffff;
+      --accent: #0284c7;
+      --pass-bg: #ecfdf5;
+      --pass-ink: #065f46;
+      --pass-border: #a7f3d0;
+      --partial-bg: #fffbeb;
+      --partial-ink: #92400e;
+      --partial-border: #fde68a;
+      --fail-bg: #fef2f2;
+      --fail-ink: #991b1b;
+      --fail-border: #fecaca;
+      --na-bg: #f1f5f9;
+      --na-ink: #475569;
+      --na-border: #cbd5e1;
+      --radius: 10px;
+      --radius-sm: 6px;
+      --shadow: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+      --space-1: 4px;
+      --space-2: 8px;
+      --space-3: 12px;
+      --space-4: 16px;
+      --space-6: 24px;
+      --space-8: 32px;
+      --font: "Sarabun", "TH Sarabun New", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --fs-title: clamp(21px, 2.1vw + 14px, 30px);
+      --fs-subtitle: clamp(15px, 1vw + 12px, 18px);
+      --fs-h2: clamp(18px, 1.4vw + 13px, 23px);
+      --fs-h3: clamp(16.5px, 1.1vw + 13px, 20px);
+      --fs-body: clamp(16px, 0.95vw + 13.5px, 18.5px);
+      --fs-table: clamp(15.5px, 0.9vw + 13px, 17.5px);
+      --fs-control: clamp(15.5px, 0.9vw + 13px, 17.5px);
+      --fs-label: clamp(14.5px, 0.8vw + 12.5px, 16.5px);
+      --fs-small: clamp(13.5px, 0.75vw + 11.5px, 15.5px);
+      --fs-kpi: clamp(24px, 2.2vw + 16px, 34px);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      margin: 0;
+      font-family: var(--font);
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.65;
+      font-size: var(--fs-body);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-rendering: optimizeLegibility;
+    }
+
+    .app-header {
+      background: var(--brand);
+      color: var(--brand-ink);
+      padding: clamp(16px, 2.5vw, 28px) clamp(14px, 2.5vw, 28px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .header-inner {
+      max-width: 1360px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+    }
+
+    .app-title {
+      margin: 0;
+      font-size: var(--fs-title);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      line-height: 1.35;
+    }
+
+    .app-subtitle {
+      margin: 0;
+      font-size: var(--fs-subtitle);
+      color: rgba(255, 255, 255, 0.92);
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 1360px;
+      margin: 0 auto;
+      padding: clamp(12px, 2.2vw, 28px);
+      display: flex;
+      flex-direction: column;
+      gap: clamp(14px, 2vw, 24px);
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: clamp(14px, 2.2vw, 26px);
+    }
+
+    /* Hospital Selector & Metadata Bar */
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+      gap: var(--space-4);
+      align-items: end;
+    }
+
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .field-label {
+      font-size: var(--fs-label);
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .input,
+    .select,
+    .textarea {
+      font-family: var(--font);
+      font-size: var(--fs-control);
+      font-weight: 500;
+      color: var(--ink);
+      background: var(--surface);
+      border: 1px solid var(--border-strong);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      width: 100%;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .input:focus,
+    .select:focus,
+    .textarea:focus {
+      outline: none;
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(15, 95, 92, 0.15);
+    }
+
+    .textarea {
+      resize: vertical;
+      min-height: 72px;
+      line-height: 1.55;
+    }
+
+    .textarea.needs-attention {
+      border-color: #f59e0b;
+      background: #fffdf5;
+    }
+
+    .field-hint {
+      font-size: var(--fs-small);
+      font-weight: 600;
+      color: #b45309;
+      margin-top: 4px;
+    }
+
+    /* Navigation Tabs matching the 3 sheets + 10 hospitals overview */
+    .nav-tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: var(--space-2);
+    }
+
+    .tab-btn {
+      font-family: var(--font);
+      font-size: var(--fs-control);
+      font-weight: 700;
+      padding: 11px 20px;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--ink-secondary);
+      cursor: pointer;
+      transition: background 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .tab-btn:hover {
+      background: var(--surface-alt);
+      color: var(--ink);
+    }
+
+    .tab-btn.active {
+      background: var(--brand);
+      color: var(--brand-ink);
+    }
+
+    .tab-btn:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    /* Topic Filter Bar */
+    .topic-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-bottom: var(--space-4);
+    }
+
+    .topic-pill {
+      font-family: var(--font);
+      font-size: var(--fs-label);
+      font-weight: 600;
+      padding: 8px 16px;
+      border-radius: 999px;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--ink-secondary);
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .topic-pill:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+    }
+
+    .topic-pill.active {
+      background: var(--brand-soft);
+      border-color: var(--brand);
+      color: var(--brand);
+      font-weight: 700;
+    }
+
+    /* Tables */
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: var(--surface);
+      font-size: var(--fs-table);
+      line-height: 1.6;
+    }
+
+    th,
+    td {
+      padding: 14px 12px;
+      text-align: left;
+      vertical-align: top;
+      border-bottom: 1px solid var(--border);
+    }
+
+    th {
+      background: var(--surface-alt);
+      font-weight: 700;
+      font-size: var(--fs-table);
+      color: var(--ink);
+      white-space: nowrap;
+      border-bottom: 2px solid var(--border-strong);
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tbody tr:hover {
+      background: #f8fafc;
+    }
+
+    .num-col {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .center-col {
+      text-align: center;
+    }
+
+    .topic-group-row td {
+      background: #eef6f6;
+      font-weight: 700;
+      font-size: var(--fs-h3);
+      color: var(--brand);
+      padding: 12px 14px;
+      border-top: 1px solid var(--border-strong);
+    }
+
+    .subhead-row td {
+      background: #f8fafc;
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    /* Score display */
+    .score-box {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 50px;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: var(--fs-table);
+      text-align: center;
+      border: 1px solid var(--border);
+      background: var(--surface-alt);
+      color: var(--muted);
+    }
+
+    .score-2 {
+      background: var(--pass-bg);
+      color: var(--pass-ink);
+      border-color: var(--pass-border);
+    }
+
+    .score-1 {
+      background: var(--partial-bg);
+      color: var(--partial-ink);
+      border-color: var(--partial-border);
+    }
+
+    .score-0 {
+      background: var(--fail-bg);
+      color: var(--fail-ink);
+      border-color: var(--fail-border);
+    }
+
+    .score-na {
+      background: var(--na-bg);
+      color: var(--na-ink);
+      border-color: var(--na-border);
+    }
+
+    /* SSJ Verification Badges & Section */
+    .ssj-col-header {
+      background: #eff6ff !important;
+      color: #1e3a8a !important;
+      border-bottom: 2px solid #93c5fd !important;
+    }
+
+    .ssj-cell {
+      background: #f8fbff;
+    }
+
+    .ssj-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: var(--radius-sm);
+      font-size: var(--fs-small);
+    }
+
+    .ssj-approved {
+      background: var(--pass-bg);
+      color: var(--pass-ink);
+      border: 1px solid var(--pass-border);
+    }
+
+    .ssj-revision {
+      background: var(--partial-bg);
+      color: var(--partial-ink);
+      border: 1px solid var(--partial-border);
+    }
+
+    .ssj-rejected {
+      background: var(--fail-bg);
+      color: var(--fail-ink);
+      border: 1px solid var(--fail-border);
+    }
+
+    .ssj-pending {
+      background: var(--na-bg);
+      color: var(--na-ink);
+      border: 1px solid var(--na-border);
+    }
+
+    .ssj-banner {
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      border-radius: var(--radius-sm);
+      padding: 14px 18px;
+      margin-bottom: var(--space-4);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+    }
+
+    /* Evaluation Result Status Text */
+    .eval-result-text {
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: var(--radius-sm);
+      display: inline-block;
+      font-size: var(--fs-label);
+    }
+
+    .res-excellent {
+      background: var(--pass-bg);
+      color: var(--pass-ink);
+      border: 1px solid var(--pass-border);
+    }
+
+    .res-good {
+      background: #eff6ff;
+      color: #1e40af;
+      border: 1px solid #bfdbfe;
+    }
+
+    .res-fair {
+      background: var(--partial-bg);
+      color: var(--partial-ink);
+      border: 1px solid var(--partial-border);
+    }
+
+    .res-improve {
+      background: var(--fail-bg);
+      color: var(--fail-ink);
+      border: 1px solid var(--fail-border);
+    }
+
+    /* File Attachment Control */
+    .attach-zone {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-2);
+      min-width: 200px;
+    }
+
+    .file-label-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      padding: 8px 12px;
+      font-size: var(--fs-label);
+      font-weight: 700;
+      color: var(--brand);
+      background: var(--brand-soft);
+      border: 1px dashed var(--brand);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: background 0.15s ease;
+      text-align: center;
+    }
+
+    .file-label-btn:hover {
+      background: #d3ecea;
+    }
+
+    .file-input-hidden {
+      display: none;
+    }
+
+    .file-list {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .file-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      padding: 6px 10px;
+      font-size: var(--fs-small);
+    }
+
+    .file-name-btn {
+      background: none;
+      border: none;
+      padding: 0;
+      color: var(--accent);
+      font-family: var(--font);
+      font-size: var(--fs-small);
+      font-weight: 600;
+      text-align: left;
+      cursor: pointer;
+      word-break: break-all;
+      text-decoration: underline;
+    }
+
+    .file-remove-btn {
+      background: none;
+      border: none;
+      color: var(--fail-ink);
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 700;
+      line-height: 1;
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .file-remove-btn:hover {
+      background: var(--fail-bg);
+    }
+
+    /* Instructions list */
+    .info-table th {
+      width: 220px;
+      white-space: normal;
+    }
+
+    /* Modal for viewing attached file details */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.55);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: var(--space-4);
+      z-index: 1000;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-card {
+      background: var(--surface);
+      border-radius: var(--radius);
+      max-width: 760px;
+      width: 100%;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 25px -5px rgba(15, 23, 42, 0.18);
+      border: 1px solid var(--border);
+      overflow: hidden;
+    }
+
+    .modal-header {
+      padding: var(--space-4) var(--space-6);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+    }
+
+    .modal-title {
+      margin: 0;
+      font-size: var(--fs-h3);
+      font-weight: 700;
+      word-break: break-all;
+    }
+
+    .modal-body {
+      padding: var(--space-6);
+      overflow-y: auto;
+      font-size: var(--fs-body);
+    }
+
+    .btn {
+      font-family: var(--font);
+      font-size: var(--fs-control);
+      font-weight: 700;
+      padding: 9px 16px;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      cursor: pointer;
+      transition: background 0.15s ease;
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--ink);
+      border-color: var(--border-strong);
+    }
+
+    .btn-secondary:hover {
+      background: var(--surface-alt);
+    }
+
+    .btn-primary {
+      background: var(--brand);
+      color: var(--brand-ink);
+      border-color: var(--brand);
+    }
+
+    .btn-primary:hover {
+      background: var(--brand-hover);
+      border-color: var(--brand-hover);
+    }
+
+    .btn-primary:focus-visible {
+      outline: 2px solid var(--accent);
+      outline-offset: 2px;
+    }
+
+    .checklist-header-bar {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-3);
+      margin-bottom: var(--space-4);
+    }
+
+    .checklist-footer-bar {
+      margin-top: var(--space-6);
+      padding-top: var(--space-4);
+      border-top: 1px solid var(--border);
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-4);
+    }
+
+    .submit-status-banner {
+      display: none;
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      margin-bottom: var(--space-4);
+      font-size: var(--fs-label);
+      font-weight: 600;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: var(--space-3);
+    }
+
+    .submit-status-banner.submitted {
+      display: flex;
+      background: var(--pass-bg);
+      color: var(--pass-ink);
+      border: 1px solid var(--pass-border);
+    }
+
+    .submit-status-banner.warning {
+      display: flex;
+      background: var(--partial-bg);
+      color: var(--partial-ink);
+      border: 1px solid var(--partial-border);
+    }
+
+    .section-title {
+      margin: 0 0 var(--space-4) 0;
+      font-size: var(--fs-h2);
+      font-weight: 700;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+
+    .footnote {
+      margin-top: var(--space-3);
+      font-size: var(--fs-label);
+      color: var(--muted);
+    }
+
+    .hospital-grid-select {
+      cursor: pointer;
+      color: var(--brand);
+      font-weight: 700;
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: var(--font);
+      font-size: var(--fs-table);
+      text-decoration: underline;
+      text-align: left;
+    }
+
+    /* Executive Dashboard Styles */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr));
+      gap: var(--space-4);
+      margin-bottom: var(--space-6);
+    }
+
+    .kpi-card {
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: clamp(14px, 1.8vw, 20px);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .kpi-label {
+      font-size: var(--fs-label);
+      font-weight: 700;
+      color: var(--ink-secondary);
+    }
+
+    .kpi-value {
+      font-size: var(--fs-kpi);
+      font-weight: 700;
+      color: var(--brand);
+      font-variant-numeric: tabular-nums;
+      line-height: 1.25;
+    }
+
+    .kpi-sub {
+      font-size: var(--fs-small);
+      color: var(--muted);
+    }
+
+    .dash-hosp-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 360px), 1fr));
+      gap: var(--space-4);
+    }
+
+    .dash-hosp-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: clamp(14px, 2vw, 22px);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-3);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .dash-hosp-card:hover {
+      border-color: var(--brand);
+      box-shadow: var(--shadow);
+    }
+
+    .dash-hosp-card.selected-hosp {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 2px rgba(15, 95, 92, 0.14);
+    }
+
+    .dash-hosp-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      border-bottom: 1px solid var(--border);
+      padding-bottom: var(--space-2);
+    }
+
+    .dash-hosp-title {
+      margin: 0;
+      font-size: var(--fs-h3);
+      font-weight: 700;
+      color: var(--ink);
+    }
+
+    .dash-hosp-meta {
+      font-size: var(--fs-small);
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .dash-metrics-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: var(--space-2);
+      background: var(--surface-alt);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      padding: 10px 12px;
+      text-align: center;
+    }
+
+    .dash-metric-item {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .dash-metric-lbl {
+      font-size: var(--fs-small);
+      color: var(--muted);
+      font-weight: 500;
+    }
+
+    .dash-metric-val {
+      font-size: var(--fs-table);
+      font-weight: 700;
+      color: var(--ink);
+      font-variant-numeric: tabular-nums;
+    }
+
+    .dash-topic-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .dash-topic-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      font-size: var(--fs-small);
+    }
+
+    .dash-topic-top {
+      display: flex;
+      justify-content: space-between;
+      gap: var(--space-2);
+      color: var(--ink-secondary);
+      font-size: var(--fs-small);
+    }
+
+    .dash-bar-track {
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .dash-bar-fill {
+      height: 100%;
+      background: var(--brand);
+      border-radius: 999px;
+      transition: width 0.25s ease;
+    }
+
+    .dash-card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--space-2);
+      margin-top: auto;
+      padding-top: var(--space-3);
+      border-top: 1px solid var(--border);
+    }
+
+    .btn-sm {
+      font-family: var(--font);
+      font-size: var(--fs-label);
+      font-weight: 700;
+      padding: 9px 14px;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      flex: 1 1 140px;
+      text-align: center;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--ink-secondary);
+      transition: all 0.15s ease;
+    }
+
+    .btn-sm:hover {
+      border-color: var(--brand);
+      color: var(--brand);
+      background: var(--brand-soft);
+    }
+
+    .btn-sm-primary {
+      background: var(--brand);
+      color: var(--brand-ink);
+      border-color: var(--brand);
+    }
+
+    .btn-sm-primary:hover {
+      background: var(--brand-hover);
+      color: var(--brand-ink);
+    }
+
+    /* Responsive scaling across tablets and phones */
+    @media (max-width: 1024px) {
+      .dash-hosp-grid {
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav-tabs {
+        flex-direction: column;
+      }
+      .tab-btn {
+        width: 100%;
+        text-align: left;
+      }
+      .dash-metrics-row {
+        grid-template-columns: repeat(2, 1fr);
+        gap: var(--space-3);
+      }
+      .info-table th,
+      .info-table td {
+        display: block;
+        width: 100%;
+      }
+      .info-table th {
+        border-bottom: none;
+        padding-bottom: 4px;
+      }
+      .modal-header,
+      .modal-body {
+        padding: var(--space-4);
+      }
+    }
+
+    @media (max-width: 480px) {
+      .meta-grid {
+        grid-template-columns: 1fr;
+      }
+      .kpi-grid {
+        grid-template-columns: 1fr;
+      }
+      .dash-hosp-grid {
+        grid-template-columns: 1fr;
+      }
+      .topic-pill {
+        width: 100%;
+        text-align: left;
+      }
+      .btn-sm {
+        flex: 1 1 100%;
+      }
+    }
+  </style>
+</head>
+<body><style>[hidden]{display:none!important}#cloud-login{position:fixed;inset:0;background:rgba(15,23,42,.88);z-index:10000;display:grid;place-items:center;padding:20px}#cloud-login form{background:white;padding:32px;border-radius:12px;width:min(440px,100%)}#cloud-login input{margin:12px 0}</style><div id="cloud-login"><form id="cloud-login-form"><h2>Checklist CFO จังหวัดตรัง</h2><p>เข้าสู่ระบบเพื่อเรียกดูและบันทึกข้อมูลโรงพยาบาล</p><label for="cloud-code">รหัสเข้าใช้งาน</label><input class="input" id="cloud-code" type="password" required autocomplete="current-password"><button class="btn btn-primary" type="submit">เข้าสู่ระบบ</button><p id="cloud-login-error" role="alert" style="color:#b91c1c"></p></form></div>
+  <header class="app-header">
+    <div class="header-inner">
+      <h1 class="app-title">แบบประเมิน Checklist การกำกับติดตามการบริหารการเงินการคลังของโรงพยาบาล</h1>
+      <p class="app-subtitle">สำหรับโรงพยาบาลในจังหวัดตรัง ทั้ง 10 แห่ง — ตอบแบบประเมินและแนบเอกสารหลักฐานประกอบทุกข้อ</p>
+    </div>
+  </header>
+
+  <main class="container"><section class="card" aria-label="การบันทึกข้อมูลส่วนกลาง"><div style="display:flex;gap:12px;flex-wrap:wrap;align-items:center"><strong id="cloud-status" role="status" aria-live="polite">รอเข้าสู่ระบบ</strong><button type="button" class="btn btn-primary" id="cloud-save">บันทึกลง Sheets</button><button type="button" class="btn btn-secondary" id="cloud-reload">โหลดข้อมูลล่าสุด</button><button type="button" class="btn btn-secondary" id="cloud-backup">สำรองข้อมูลในหน้านี้</button><button type="button" class="btn btn-secondary" id="cloud-logout">ออกจากระบบ</button></div><p style="font-size:14px;margin-bottom:0">บันทึกอัตโนมัติ • ไฟล์แนบไม่เกิน 3 MB ต่อไฟล์ • แยกโฟลเดอร์ตามโรงพยาบาลและข้อประเมิน • การลบไฟล์ในแบบประเมินจะนำลิงก์ออก โดยยังเก็บไฟล์ต้นฉบับใน Drive</p></section>
+    <!-- Hospital & Evaluator Metadata Card -->
+    <section class="card" aria-label="ข้อมูลโรงพยาบาลและการประเมิน">
+      <div class="meta-grid">
+        <div class="field-group">
+          <label class="field-label" for="hospital-select">โรงพยาบาล (จังหวัดตรัง 10 แห่ง)</label>
+          <select id="hospital-select" class="select"></select>
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="eval-date">วันที่ประเมิน</label>
+          <input id="eval-date" type="date" class="input">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="eval-round">รอบการประเมิน</label>
+          <input id="eval-round" type="text" class="input" placeholder="ระบุรอบการประเมิน เช่น ไตรมาส 1/2568">
+        </div>
+        <div class="field-group">
+          <label class="field-label" for="evaluator-name">ผู้ประเมิน</label>
+          <input id="evaluator-name" type="text" class="input" placeholder="ระบุชื่อ-สกุล / ตำแหน่งผู้ประเมิน">
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Navigation Tabs -->
+    <nav class="nav-tabs" aria-label="แผ่นงานแบบประเมิน">
+      <button type="button" class="tab-btn active" data-tab="dashboard">Dashboard</button>
+      <button type="button" class="tab-btn" data-tab="checklist">แบบประเมินตนเอง รพ. และแนบเอกสาร</button>
+      <button type="button" class="tab-btn" data-tab="ssj-verify">สสจ. ตรวจรับรองและข้อเสนอแนะ (ตรวจราชการระดับจังหวัด)</button>
+      <button type="button" class="tab-btn" data-tab="summary">สรุปผลประเมิน (รายโรงพยาบาล)</button>
+      <button type="button" class="tab-btn" data-tab="all-hospitals">สถานะการประเมินทั้ง 10 โรงพยาบาล จ.ตรัง</button>
+      <button type="button" class="tab-btn" data-tab="instructions">คำชี้แจง</button>
+    </nav>
+
+    <!-- TAB 0: หน้าหลัก Dashboard ผู้บริหาร สรุปข้อมูลแยกรายโรงพยาบาล -->
+    <section id="view-dashboard" class="card">
+      <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 16px;">
+        <div>
+          <h2 class="section-title" style="margin-bottom: 4px;">Dashboard ผู้บริหาร: ติดตามผลการประเมินการบริหารการเงินการคลัง แยกรายโรงพยาบาล (จ.ตรัง 10 แห่ง)</h2>
+          <p style="margin: 0; font-size: var(--fs-label); color: var(--muted);">สรุปความก้าวหน้า คะแนนรายประเด็น 6 ด้าน การแนบเอกสารหลักฐาน และข้อค้นพบที่ต้องติดตามแก้ไขของแต่ละโรงพยาบาล</p>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+          <label for="dash-filter-status" class="field-label" style="white-space: nowrap;">กรองสถานะ:</label>
+          <select id="dash-filter-status" class="select" style="width: auto; min-width: 180px;">
+            <option value="ALL">ทุกโรงพยาบาล (10 แห่ง)</option>
+            <option value="EVALUATED">ประเมินแล้ว</option>
+            <option value="PENDING">รอการประเมิน</option>
+            <option value="HAS_ISSUES">มีรายการต้องแก้ไข (คะแนน 0 หรือ 1)</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- KPI Overview Cards -->
+      <div class="kpi-grid" id="dashboard-kpi-grid"></div>
+
+      <!-- Provincial 6 Topics Average Summary -->
+      <div style="background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 16px; margin-bottom: 24px;">
+        <h3 style="margin: 0 0 12px 0; font-size: var(--fs-h3); font-weight: 700; color: var(--ink);">ค่าเฉลี่ยภาพรวมจังหวัด รายประเด็นกำกับติดตาม (6 ประเด็นหลัก)</h3>
+        <div id="dashboard-topic-averages" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 12px 24px;"></div>
+      </div>
+
+      <!-- Hospital Breakdown Cards (10 Hospitals) -->
+      <h3 style="margin: 0 0 12px 0; font-size: var(--fs-h3); font-weight: 700; color: var(--ink);">สรุปข้อมูลแยกรายโรงพยาบาล (คลิกเลือกโรงพยาบาลเพื่อดูรายละเอียดหรือตรวจเอกสารแนบ)</h3>
+      <div class="dash-hosp-grid" id="dashboard-hosp-grid"></div>
+    </section>
+
+    <!-- TAB 1: แบบประเมิน Checklist -->
+    <section id="view-checklist" class="card" style="display: none;">
+      <div class="checklist-header-bar">
+        <h2 class="section-title" id="checklist-heading" style="margin-bottom: 0;">แบบประเมิน Checklist การกำกับติดตามการบริหารการเงินการคลังของโรงพยาบาล</h2>
+        <button type="button" class="btn btn-primary" id="submit-checklist-top-btn">ส่งแบบประเมิน</button>
+      </div>
+
+      <div id="checklist-submit-banner" class="submit-status-banner" role="status" aria-live="polite"></div>
+
+      <div class="topic-bar" id="topic-filter-bar" role="group" aria-label="กรองตามประเด็นกำกับติดตาม"></div>
+
+      <div class="table-wrap">
+        <table aria-label="รายการตรวจประเมิน Checklist">
+          <thead>
+            <tr>
+              <th style="width: 56px;">ลำดับ</th>
+              <th style="min-width: 260px;">รายการตรวจประเมิน / Checklist</th>
+              <th style="min-width: 180px;">หลักฐานที่ควรตรวจสอบ</th>
+              <th style="min-width: 210px;">แนบเอกสารหลักฐาน</th>
+              <th style="min-width: 165px;">ผลประเมิน<br><span style="font-weight:400;font-size:var(--fs-small);">(ผ่าน/บางส่วน/ไม่ผ่าน/N/A)</span></th>
+              <th class="center-col" style="width: 85px;">คะแนน<br><span style="font-weight:400;font-size:var(--fs-small);">(2/1/0/N/A)</span></th>
+              <th style="min-width: 190px;">ข้อค้นพบ/รายละเอียด</th>
+              <th style="min-width: 190px;">มาตรการแก้ไข/พัฒนา</th>
+              <th style="min-width: 190px;">ผู้รับผิดชอบและกำหนดแล้วเสร็จ</th>
+              <th class="ssj-col-header" style="min-width: 185px;">การรับรองของ สสจ.<br><span style="font-weight:400;font-size:var(--fs-small);">(ตรวจหลักฐานแนบ)</span></th>
+              <th class="ssj-col-header" style="min-width: 220px;">ข้อเสนอแนะของ สสจ.<br><span style="font-weight:400;font-size:var(--fs-small);">(ลงตรวจราชการระดับจังหวัด)</span></th>
+            </tr>
+          </thead>
+          <tbody id="checklist-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="checklist-footer-bar">
+        <div id="checklist-footer-summary" style="font-size: var(--fs-label); color: var(--ink-secondary); font-weight: 600;"></div>
+        <button type="button" class="btn btn-primary" id="submit-checklist-bottom-btn">ส่งแบบประเมิน</button>
+      </div>
+    </section>
+
+    <!-- TAB 1.5: สสจ. ตรวจรับรองและข้อเสนอแนะ (ตรวจราชการระดับจังหวัด) -->
+    <section id="view-ssj" class="card" style="display: none;">
+      <h2 class="section-title" id="ssj-heading">สสจ.ตรัง ตรวจรับรองผลประเมินและให้ข้อเสนอแนะรายข้อ (เมื่อลงตรวจราชการในระดับจังหวัด)</h2>
+
+      <div class="ssj-banner">
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 14px; flex: 1;">
+          <div class="field-group">
+            <label class="field-label" for="ssj-inspector-name">ผู้ตรวจรับรอง / คณะผู้นิเทศงาน (สสจ.ตรัง)</label>
+            <input id="ssj-inspector-name" type="text" class="input" placeholder="ระบุชื่อ-สกุล / ตำแหน่งผู้ตรวจรับรอง สสจ.ตรัง">
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="ssj-inspect-date">วันที่ลงตรวจราชการระดับจังหวัด</label>
+            <input id="ssj-inspect-date" type="date" class="input">
+          </div>
+          <div class="field-group">
+            <label class="field-label" for="ssj-filter-mode">กรองรายการตรวจรับรอง</label>
+            <select id="ssj-filter-mode" class="select">
+              <option value="ALL">แสดงทุกข้อ (ลำดับ 1–41)</option>
+              <option value="READY">เฉพาะข้อที่ รพ. ประเมินหรือแนบหลักฐานแล้ว</option>
+              <option value="PENDING_SSJ">รอ สสจ. ตรวจรับรอง</option>
+              <option value="APPROVED">สสจ. รับรองผลแล้ว</option>
+              <option value="REVISION">สสจ. ให้แก้ไข/แนบหลักฐานเพิ่ม หรือไม่รับรอง</option>
+            </select>
+          </div>
+        </div>
+        <div style="display: flex; flex-direction: column; gap: 6px; align-items: flex-end;">
+          <div id="ssj-progress-summary" style="font-size: var(--fs-label); font-weight: 700; color: #1e3a8a;"></div>
+          <button type="button" class="btn-sm btn-sm-primary" id="ssj-approve-ready-btn" style="flex: unset; width: auto;">
+            รับรองผลทุกรายการที่ รพ. ประเมินและแนบหลักฐานแล้ว
+          </button>
+        </div>
+      </div>
+
+      <div class="topic-bar" id="ssj-topic-filter-bar" role="group" aria-label="กรองตามประเด็นสำหรับ สสจ."></div>
+
+      <div class="table-wrap">
+        <table aria-label="ตารางตรวจรับรองและข้อเสนอแนะโดย สสจ.">
+          <thead>
+            <tr>
+              <th style="width: 56px;">ลำดับ</th>
+              <th style="min-width: 250px;">รายการตรวจประเมิน / Checklist</th>
+              <th style="min-width: 150px;">ผลประเมินตนเอง รพ.<br><span style="font-weight:400;font-size:var(--fs-small);">(คะแนนที่ได้)</span></th>
+              <th style="min-width: 210px;">หลักฐานที่ รพ. แนบ<br><span style="font-weight:400;font-size:var(--fs-small);">(คลิกเพื่อเปิดดูหลักฐาน)</span></th>
+              <th style="min-width: 210px;">ข้อค้นพบ / มาตรการแก้ไขของ รพ.</th>
+              <th class="ssj-col-header" style="min-width: 200px;">การรับรองของ สสจ.<br><span style="font-weight:400;font-size:var(--fs-small);">(หลังตรวจหลักฐานแนบ)</span></th>
+              <th class="ssj-col-header" style="min-width: 260px;">ข้อเสนอแนะของ สสจ. แต่ละข้อ<br><span style="font-weight:400;font-size:var(--fs-small);">(เมื่อลงตรวจราชการในระดับจังหวัด)</span></th>
+            </tr>
+          </thead>
+          <tbody id="ssj-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 2: สรุปผลประเมิน -->
+    <section id="view-summary" class="card" style="display: none;">
+      <h2 class="section-title">สรุปผลการประเมินการกำกับติดตามการบริหารการเงินการคลัง</h2>
+      <div style="display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 16px; font-size: var(--fs-table);">
+        <div><strong>โรงพยาบาล:</strong> <span id="sum-hospital-name">-</span></div>
+        <div><strong>วันที่ประเมิน:</strong> <span id="sum-eval-date">-</span></div>
+        <div><strong>รอบการประเมิน:</strong> <span id="sum-eval-round">-</span></div>
+        <div><strong>ผู้ประเมิน:</strong> <span id="sum-evaluator">-</span></div>
+      </div>
+
+      <div class="table-wrap">
+        <table aria-label="ตารางสรุปผลการประเมิน">
+          <thead>
+            <tr>
+              <th>ประเด็นกำกับติดตาม</th>
+              <th class="num-col">จำนวนข้อ</th>
+              <th class="num-col">คะแนนที่ได้</th>
+              <th class="num-col">คะแนนเต็ม*</th>
+              <th class="num-col">ร้อยละ</th>
+              <th class="center-col">ผลการประเมิน</th>
+            </tr>
+          </thead>
+          <tbody id="summary-tbody"></tbody>
+        </table>
+      </div>
+      <p class="footnote">* คะแนนเต็มคำนวณจากจำนวนข้อที่ประเมิน โดยไม่นับข้อที่เลือก “ไม่เกี่ยวข้อง”</p>
+
+      <div style="margin-top: 24px;">
+        <h3 style="font-size: var(--fs-h3); margin: 0 0 8px 0;">เกณฑ์แปลผล</h3>
+        <div class="table-wrap" style="max-width: 420px;">
+          <table>
+            <thead>
+              <tr>
+                <th>ช่วงคะแนนร้อยละ</th>
+                <th>ผลการประเมิน</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>90–100%</td>
+                <td><span class="eval-result-text res-excellent">ดีมาก</span></td>
+              </tr>
+              <tr>
+                <td>80–ต่ำกว่า 90%</td>
+                <td><span class="eval-result-text res-good">ดี</span></td>
+              </tr>
+              <tr>
+                <td>70–ต่ำกว่า 80%</td>
+                <td><span class="eval-result-text res-fair">พอใช้</span></td>
+              </tr>
+              <tr>
+                <td>ต่ำกว่า 70%</td>
+                <td><span class="eval-result-text res-improve">ต้องปรับปรุง</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 3: ภาพรวมทั้ง 10 โรงพยาบาล จ.ตรัง -->
+    <section id="view-all-hospitals" class="card" style="display: none;">
+      <h2 class="section-title">สรุปผลการประเมินโรงพยาบาลทั้ง 10 แห่ง จังหวัดตรัง</h2>
+      <div class="table-wrap">
+        <table aria-label="ตารางสรุปผลโรงพยาบาลทั้ง 10 แห่ง จังหวัดตรัง">
+          <thead>
+            <tr>
+              <th style="width: 50px;">ลำดับ</th>
+              <th>โรงพยาบาล</th>
+              <th>อำเภอ</th>
+              <th>วันที่ประเมิน</th>
+              <th class="num-col">จำนวนข้อที่ประเมิน</th>
+              <th class="num-col">เอกสารที่แนบ (ข้อ)</th>
+              <th class="num-col ssj-col-header">สสจ. รับรองแล้ว (ข้อ)</th>
+              <th class="num-col">คะแนนที่ได้</th>
+              <th class="num-col">คะแนนเต็ม*</th>
+              <th class="num-col">ร้อยละ</th>
+              <th class="center-col">ผลการประเมิน</th>
+            </tr>
+          </thead>
+          <tbody id="all-hospitals-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- TAB 4: คำชี้แจง -->
+    <section id="view-instructions" class="card" style="display: none;">
+      <h2 class="section-title">แบบประเมิน Checklist การกำกับติดตามการบริหารการเงินการคลังของโรงพยาบาล — คำชี้แจง</h2>
+      <div class="table-wrap">
+        <table class="info-table" aria-label="คำชี้แจงการใช้แบบประเมิน">
+          <tbody id="instructions-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+
+  <!-- File Preview Modal -->
+  <div id="file-modal" class="modal-backdrop" role="dialog" aria-modal="true" aria-labelledby="file-modal-title">
+    <div class="modal-card">
+      <div class="modal-header">
+        <h3 id="file-modal-title" class="modal-title">รายละเอียดเอกสารแนบ</h3>
+        <button type="button" class="btn btn-secondary" id="file-modal-close">ปิด</button>
+      </div>
+      <div class="modal-body" id="file-modal-body"></div>
+    </div>
+  </div>
+
+  <script>
+    // 10 Government Hospitals in Trang Province (จากการค้นหาข้อมูลโรงพยาบาลในจังหวัดตรัง 10 แห่ง)
+    const TRANG_HOSPITALS = [
+      { id: 'hosp-1', name: 'โรงพยาบาลตรัง', district: 'อำเภอเมืองตรัง' },
+      { id: 'hosp-2', name: 'โรงพยาบาลกันตัง', district: 'อำเภอกันตัง' },
+      { id: 'hosp-3', name: 'โรงพยาบาลย่านตาขาว', district: 'อำเภอย่านตาขาว' },
+      { id: 'hosp-4', name: 'โรงพยาบาลปะเหลียน', district: 'อำเภอปะเหลียน' },
+      { id: 'hosp-5', name: 'โรงพยาบาลสิเกา', district: 'อำเภอสิเกา' },
+      { id: 'hosp-6', name: 'โรงพยาบาลห้วยยอด', district: 'อำเภอห้วยยอด' },
+      { id: 'hosp-7', name: 'โรงพยาบาลวังวิเศษ', district: 'อำเภอวังวิเศษ' },
+      { id: 'hosp-8', name: 'โรงพยาบาลนาโยง', district: 'อำเภอนาโยง' },
+      { id: 'hosp-9', name: 'โรงพยาบาลรัษฎา', district: 'อำเภอรัษฎา' },
+      { id: 'hosp-10', name: 'โรงพยาบาลหาดสำราญเฉลิมพระเกียรติ 80 พรรษา', district: 'อำเภอหาดสำราญ' }
+    ];
+
+    // คำชี้แจง จากแผ่นงาน "คำชี้แจง"
+    const INSTRUCTIONS_DATA = [
+      {
+        label: 'วัตถุประสงค์',
+        value: 'ใช้เป็นเครื่องมือกำกับติดตาม 6 ประเด็นหลัก โดยประเมินทั้งการมีระบบ/เอกสาร การปฏิบัติจริง และผลลัพธ์ที่เกิดขึ้น'
+      },
+      {
+        label: 'วิธีใช้',
+        value: 'กรอกข้อมูลโรงพยาบาลและวันที่ประเมินในแผ่นงาน “แบบประเมิน Checklist” จากนั้นเลือกผลประเมินในคอลัมน์ผลการประเมิน และระบุหลักฐาน/ข้อค้นพบให้ตรวจสอบย้อนกลับได้'
+      },
+      {
+        label: 'เกณฑ์คะแนน',
+        value: 'ผ่าน = 2 คะแนน (ดำเนินการครบถ้วน ถูกต้อง และมีหลักฐาน), ดำเนินการบางส่วน = 1 คะแนน (มีระบบหรือดำเนินการแล้ว แต่ยังไม่ครบ/ไม่ต่อเนื่อง/พบข้อบกพร่อง), ไม่ผ่าน = 0 คะแนน (ไม่มีการดำเนินการ หรือไม่เป็นไปตามเกณฑ์), ไม่เกี่ยวข้อง = ไม่นำมาคำนวณ'
+      },
+      {
+        label: 'การแปลผล',
+        value: 'ร้อยละ 90–100 = ดีมาก, 80–ต่ำกว่า 90 = ดี, 70–ต่ำกว่า 80 = พอใช้, ต่ำกว่า 70 = ต้องปรับปรุง (เป็นเกณฑ์เพื่อการกำกับติดตามภายในจังหวัดตรัง)'
+      },
+      {
+        label: 'หลักฐานที่ควรตรวจ',
+        value: 'รายงานบัญชีแยกประเภท/งบทดลอง/รายงานลูกหนี้และเจ้าหนี้, รายงานเรียกเก็บและติดตามหนี้, เอกสารจัดซื้อจัดจ้างและฎีกาเบิกจ่าย, รายงานรายได้, แผนรับ-จ่ายเงินบำรุงและแผนการเงิน Planfin, รายงานการประชุมผู้บริหาร/CFO, หลักฐานการแก้ไขข้อทักท้วง ฯลฯ'
+      },
+      {
+        label: 'แนวทางการใช้ผล',
+        value: 'รายการที่ได้ 0 หรือ 1 คะแนน ให้ระบุข้อค้นพบ สาเหตุ มาตรการแก้ไข ผู้รับผิดชอบ และกำหนดแล้วเสร็จ พร้อมติดตามจนปิดประเด็น'
+      },
+      {
+        label: 'ข้อควรระวัง',
+        value: 'แบบประเมินนี้เป็นเครื่องมือกำกับติดตามที่พัฒนาจากแนวทาง 6 ประเด็นในภาพที่ได้รับ ไม่ใช้แทนการตรวจสอบภายใน การตรวจสอบบัญชี หรือการวินิจฉัยข้อกฎหมายใดๆ'
+      }
+    ];
+
+    // 6 ประเด็นกำกับติดตามหลัก
+    const TOPICS = [
+      '1. การบันทึกรับรู้ลูกหนี้ค่ารักษาพยาบาล',
+      '2. การบันทึกรับรู้เจ้าหนี้การค้า',
+      '3. การบริหารจัดการและการรับรายได้',
+      '4. การควบคุมและการเบิกจ่ายค่าใช้จ่าย',
+      '5. การจัดทำและควบคุมแผนรับ-จ่ายเงินบำรุง',
+      '6. การกำกับดูแลของผู้บริหารและการรักษาวินัยทางการเงินการคลัง'
+    ];
+
+    // รายการตรวจประเมินทั้งหมด 44 แถว จากแผ่นงาน "แบบประเมิน Checklist"
+    const CHECKLIST_ITEMS = [
+      { seq: '1', topic: TOPICS[0], text: '1.1 มีการตรวจสอบความครบถ้วนของการบันทึกลูกหนี้ค่ารักษาพยาบาลแยกตามสิทธิ/กองทุน เทียบข้อมูลจากระบบบริการและระบบเรียกเก็บ', evidence: 'ทะเบียนลูกหนี้แยกกองทุน, รายงานกระทบยอด' },
+      { seq: '2', topic: TOPICS[0], text: '1.2 บันทึกลูกหนี้ถูกต้องตามหลักเกณฑ์ทางบัญชีและผังบัญชีที่กำหนด และบันทึกเป็นปัจจุบัน', evidence: 'บัญชีแยกประเภท, งบทดลอง, เอกสารบันทึกบัญชี' },
+      { seq: '3', topic: TOPICS[0], text: '1.3 มีการตรวจสอบความสอดคล้องระหว่างลูกหนี้ในบัญชีกับรายงานจากระบบที่เกี่ยวข้อง และแก้ไขผลต่าง', evidence: 'รายงานกระทบยอดและหลักฐานการปรับปรุง' },
+      { seq: '4', topic: TOPICS[0], text: '1.4 มีการติดตามการส่งข้อมูล/เคลมและการเรียกเก็บค่าชดเชยจากทุกกองทุนอย่างเป็นระบบ', evidence: 'รายงานส่งเคลม, รายงานถูกปฏิเสธ/รายการติด C, รายงานเรียกเก็บ' },
+      { seq: '5', topic: TOPICS[0], text: '1.5 มีทะเบียนควบคุมลูกหนี้ค้างชำระ แยกอายุหนี้ สาเหตุ และผู้รับผิดชอบ พร้อมแผนเร่งรัด', evidence: 'รายงานลูกหนี้ที่ยังไม่ได้รับชำระเงิน, แผนติดตาม, หนังสือทวงถาม' },
+      { seq: '6', topic: TOPICS[0], text: '1.6 มีการรายงานผลการเรียกเก็บและลูกหนี้คงเหลือต่อผู้บริหาร/คณะกรรมการการเงินทุกเดือน', evidence: 'รายงานประจำเดือน/รายงานการประชุม' },
+
+      { seq: '7', topic: TOPICS[1], text: '2.1 ตรวจสอบเอกสารการรับสินค้า/บริการ ใบแจ้งหนี้ ใบตรวจรับ และหลักฐานประกอบก่อนบันทึกเจ้าหนี้', evidence: 'ใบสั่งซื้อ, ใบตรวจรับ, ใบแจ้งหนี้' },
+      { seq: '8', topic: TOPICS[1], text: '2.2 บันทึกเจ้าหนี้การค้าครบถ้วน ถูกต้อง และทันเวลา ไม่ตกหล่นหรือบันทึกซ้ำ', evidence: 'ทะเบียนคุมเจ้าหนี้, บัญชีแยกประเภท' },
+      { seq: '9', topic: TOPICS[1], text: '2.3 กระทบยอดทะเบียนเจ้าหนี้กับบัญชีแยกประเภทและเอกสารคงค้าง พร้อมแก้ไขผลต่าง', evidence: 'รายงานกระทบยอด' },
+      { seq: '10', topic: TOPICS[1], text: '2.4 จัดทำทะเบียนเจ้าหนี้แยกประเภท/อายุหนี้/วันครบกำหนดชำระ และระบุหนี้ค้างชำระ', evidence: 'รายการเจ้าหนี้ค้างชำระ, ตารางวันครบกำหนดชำระหนี้' },
+      { seq: '11', topic: TOPICS[1], text: '2.5 วางแผนชำระหนี้ตามกำหนด โดยพิจารณาความจำเป็น ความสำคัญ และสภาพคล่องของหน่วยบริการ', evidence: 'แผนชำระหนี้, หลักฐานการจ่าย' },
+      { seq: '12', topic: TOPICS[1], text: '2.6 ตรวจสอบการเบิกจ่ายให้ผู้ขายภายใน 5 วันทำการตามกรณี/หลักเกณฑ์ที่เกี่ยวข้อง และมีหลักฐานกำกับ', evidence: 'ทะเบียนรับฎีกา/เอกสารอนุมัติและจ่าย' },
+      { seq: '13', topic: TOPICS[1], text: '2.7 มีระบบแจ้งเตือนเจ้าหนี้ที่มีความเสี่ยงหรือค้างชำระ และกำหนดผู้รับผิดชอบแก้ไข', evidence: 'รายงานเจ้าหนี้เสี่ยง, บันทึกแจ้งเตือน' },
+
+      { seq: '14', topic: TOPICS[2], text: '3.1 มีการควบคุมและบันทึกรายได้ทุกประเภทครบถ้วน ถูกต้อง ตามหลักเกณฑ์และมาตรฐานบัญชีภาครัฐ', evidence: 'รายงานรายได้, บัญชีแยกประเภท, เอกสารรับเงิน' },
+      { seq: '15', topic: TOPICS[2], text: '3.2 ตรวจสอบความครบถ้วนของรายได้จากบริการ เทียบข้อมูลบริการ/การเงิน/ระบบเรียกเก็บ', evidence: 'รายงานบริการเทียบรายได้, รายงานกระทบยอด' },
+      { seq: '16', topic: TOPICS[2], text: '3.3 มีระบบสอบทานการจัดเก็บรายได้ การออกใบเสร็จ การนำส่งเงิน และการบันทึกบัญชี', evidence: 'ใบเสร็จ, ใบนำส่งเงิน, รายงานตรวจสอบ' },
+      { seq: '17', topic: TOPICS[2], text: '3.4 มีการตรวจสอบรายได้ตกหล่น รายได้ค้างรับ และรายการผิดปกติ พร้อมดำเนินการแก้ไข', evidence: 'รายงานรายการผิดปกติ, หลักฐานติดตามแก้ไข' },
+      { seq: '18', topic: TOPICS[2], text: '3.5 วิเคราะห์แนวโน้มรายได้แยกประเภท/กองทุน เปรียบเทียบกับแผน Planfin/แผนเงินบำรุง ในช่วงเวลาเดียวกัน', evidence: 'รายงานวิเคราะห์รายได้ เปรียบเทียบกับแผน Planfin/แผนเงินบำรุง' },
+      { seq: '19', topic: TOPICS[2], text: '3.6 มีการติดตามผลการจัดเก็บรายได้และรายงานต่อผู้บริหารเป็นประจำทุกเดือน', evidence: 'รายงานผู้บริหาร/รายงานการประชุม' },
+
+      { seq: '20', topic: TOPICS[3], text: '4.1 การเบิกจ่ายมีเอกสารหลักฐานครบถ้วน ผ่านการตรวจสอบและอนุมัติตามลำดับอำนาจ', evidence: 'ฎีกาเบิกจ่าย, ใบอนุมัติ, เอกสารประกอบ' },
+      { seq: '21', topic: TOPICS[3], text: '4.2 การจัดซื้อจัดจ้างและการเบิกจ่ายเป็นไปตามกฎหมาย ระเบียบ และหนังสือสั่งการที่เกี่ยวข้อง', evidence: 'เอกสารจัดซื้อจัดจ้าง/สัญญา/ตรวจรับ' },
+      { seq: '22', topic: TOPICS[3], text: '4.3 มีการควบคุมค่าใช้จ่ายทุกประเภทให้สอดคล้องกับแผนและความจำเป็นของบริการ', evidence: 'รายงานค่าใช้จ่ายเทียบแผน Planfin/แผนเงินบำรุง' },
+      { seq: '23', topic: TOPICS[3], text: '4.4 มีมาตรการประหยัด ลดรายจ่ายที่ไม่จำเป็น และติดตามผลมาตรการประหยัดอย่างเป็นรูปธรรม', evidence: 'มาตรการลดค่าใช้จ่ายและผลการกำกับติดตาม' },
+      { seq: '24', topic: TOPICS[3], text: '4.5 ตรวจสอบภาระผูกพัน/สัญญา/ใบสั่งซื้อที่ยังไม่เบิกจ่าย และบันทึกภาระผูกพันครบถ้วน', evidence: 'ทะเบียน PO/สัญญา/ภาระผูกพัน' },
+      { seq: '25', topic: TOPICS[3], text: '4.6 ไม่ก่อหนี้ผูกพันเกินวงเงินที่ได้รับจัดสรรหรือเกินศักยภาพทางการเงิน โดยมีการกลั่นกรองก่อนอนุมัติ', evidence: 'รายงานวงเงินคงเหลือ/การอนุมัติ' },
+      { seq: '26', topic: TOPICS[3], text: '4.7 ติดตามค่าใช้จ่ายที่สูงผิดปกติและกำหนดมาตรการควบคุม/แก้ไข', evidence: 'รายงานวิเคราะห์ต้นทุน/ค่าใช้จ่าย' },
+
+      { seq: '27', topic: TOPICS[4], text: '5.1 จัดทำแผนรับ-จ่ายเงินบำรุงประจำปี โดยใช้ข้อมูลรายรับรายจ่ายจริงและสมมติฐานที่เหมาะสม', evidence: 'แผนรับ-จ่ายเงินบำรุงที่อนุมัติ' },
+      { seq: '28', topic: TOPICS[4], text: '5.2 แผนรับ-จ่ายสอดคล้องกับสถานการณ์จริง ภาระหนี้ แผนบริหารหนี้ และประมาณการเงินสด', evidence: 'ประมาณการกระแสเงินสด/แผนบริหารหนี้/ภาระหนี้' },
+      { seq: '29', topic: TOPICS[4], text: '5.3 มีการวิเคราะห์แผน Planfin และแผนเงินบำรุง โดยการเปรียบเทียบแผนกับผลจริงเป็นรายเดือน', evidence: 'รายงานแผน Planfin และแผนเงินบำรุง เปรียบเทียบผลจริง รายเดือน' },
+      { seq: '30', topic: TOPICS[4], text: '5.4 การวิเคราะห์สาเหตุความคลาดเคลื่อนของรายรับ รายจ่าย และผลต่างจากแผน พร้อมกำหนดมาตรการ', evidence: 'รายงานการวิเคราะห์ผลต่าง และมาตรการแก้ไข' },
+      { seq: '31', topic: TOPICS[4], text: '5.5 การควบคุมการเบิกจ่ายและการก่อหนี้ผูกพันให้เป็นไปตามแผนที่ได้รับอนุมัติ', evidence: 'รายงานเบิกจ่าย/ทะเบียนหนี้ผูกพัน' },
+      { seq: '32', topic: TOPICS[4], text: '5.6 การปรับปรุงประมาณการหรือแผนเมื่อสถานการณ์เปลี่ยนแปลง โดยผ่านการพิจารณาตามอำนาจ', evidence: 'แผนฉบับปรับปรุง/รายงานการประชุมอนุมัติ' },
+      { seq: '33', topic: TOPICS[4], text: '5.7 มีการรายงานผลการดำเนินงานตามแผนต่อผู้บริหาร/คณะกรรมการการ CFO ทุกเดือน', evidence: 'รายงานประจำเดือน/รายงานการประชุม' },
+      { seq: '34', topic: TOPICS[4], text: '5.8 การกำกับติดตามแผนเงินบำรุงตามนโยบายเขตสุขภาพที่ 12 (เน้นควบคุมกระแสเงินสดจ่ายใน 3 หมวดหลัก)', evidence: '', isSubHeader: true },
+      { seq: '34.1', topic: TOPICS[4], text: '5.8.1 แผนจัดซื้อยาและเวชภัณฑ์ ควบคุมอัตราการสำรองคลังให้อยู่ในเกณฑ์ที่เหมาะสม', evidence: 'รายงานยาและเวชภัณฑ์คงเหลือ' },
+      { seq: '34.2', topic: TOPICS[4], text: '5.8.2 แผนจ้างเหมาบริการ (คนและบริการ ค่าตอบแทน/ค่า OT ชะลอการจ้างเพิ่มและคุมเข้มการเบิกจ่าย)', evidence: 'รายการจ่ายค่าจ้างเหมาบริการ' },
+      { seq: '34.3', topic: TOPICS[4], text: '5.8.3 ค่าเช่าเครื่องพร้อมน้ำยาหรือการจัดหาอื่นๆ ในหมวดค่า Lab ให้ควบคุมสัดส่วนต้นทุนน้ำยาและค่าเช่าเครื่องเทียบกับรายได้ค่าตรวจ Lab', evidence: 'รายการจ่ายหมวดค่า Lab เทียบกับรายได้จริง' },
+
+      { seq: '35', topic: TOPICS[5], text: '6.1 ผู้บริหารรับทราบและทบทวนสถานะการเงินการคลังของโรงพยาบาลอย่างสม่ำเสมอ', evidence: 'รายงานสถานะการเงิน/รายงานการประชุม' },
+      { seq: '36', topic: TOPICS[5], text: '6.2 มีคณะกรรมการที่มีบทบาท หน้าที่ กำกับติดตามการเงินการคลังของหน่วยบริการ/มีการกำหนดผู้รับผิดชอบงานด้านต่างๆชัดเจน', evidence: 'คำสั่งแต่งตั้ง/คำสั่งมอบหมาย' },
+      { seq: '37', topic: TOPICS[5], text: '6.3 มีการประชุมติดตามสถานะการเงิน ปัญหา ความเสี่ยง และผลการแก้ไขตามรอบที่กำหนด', evidence: 'รายงานการประชุม/มติข้อสั่งการ' },
+      { seq: '38', topic: TOPICS[5], text: '6.4 ผู้บริหารกำกับให้ปฏิบัติตาม พ.ร.บ.วินัยการเงินการคลังของรัฐ พ.ศ. 2561 และระเบียบที่เกี่ยวข้อง', evidence: 'แนวปฏิบัติ/ผลตรวจสอบ/หลักฐานกำกับ' },
+      { seq: '39', topic: TOPICS[5], text: '6.5 มีการประเมินความเสี่ยงทางการเงินและกำหนดมาตรการป้องกัน/ลดความเสี่ยงล่วงหน้า', evidence: 'ทะเบียนความเสี่ยง/แผนบริหารความเสี่ยง' },
+      { seq: '40', topic: TOPICS[5], text: '6.6 เมื่อพบปัญหาหรือข้อทักท้วง มีแผนแก้ไข ระบุผู้รับผิดชอบ ระยะเวลาดำเนินการ และติดตามจนแล้วเสร็จ', evidence: 'แผนแก้ไข/หลักฐานการดำเนินการ' },
+      { seq: '41', topic: TOPICS[5], text: '6.7 มีการรายงานประเด็นความเสี่ยง/เหตุการณ์ที่อาจส่งผลกระทบต่อสภาพคล่องทางการเงิน ต่อผู้บริหารรพ./สสจ. โดยไม่ล่าช้า', evidence: 'รายงานเหตุการณ์/หนังสือรายงาน' }
+    ];
+
+    // State per hospital
+    const hospitalState = {};
+    TRANG_HOSPITALS.forEach(h => {
+      const itemsMap = {};
+      CHECKLIST_ITEMS.forEach(item => {
+        itemsMap[item.seq] = {
+          result: '', // '', 'ผ่าน', 'ดำเนินการบางส่วน', 'ไม่ผ่าน', 'ไม่เกี่ยวข้อง'
+          finding: '',
+          measure: '',
+          responsible: '',
+          files: [], // Array of { name, size, type, dataUrl }
+          ssjStatus: '', // '', 'รับรองผล', 'ให้แก้ไข/เพิ่มเติมหลักฐาน', 'ไม่รับรองผล'
+          ssjComment: '' // ข้อเสนอแนะของ สสจ. เมื่อลงตรวจราชการในระดับจังหวัด
+        };
+      });
+      hospitalState[h.id] = {
+        evalDate: '',
+        evalRound: '',
+        evaluator: '',
+        ssjInspector: '',
+        ssjInspectDate: '',
+        submitted: false,
+        submittedAt: '',
+        submitWarning: '',
+        items: itemsMap
+      };
+    });
+
+    let currentHospitalId = TRANG_HOSPITALS[0].id;
+    let currentTopicFilter = 'ALL';
+    let currentSsjFilterMode = 'ALL';
+    let currentTab = 'dashboard';
+    let currentDashFilter = 'ALL';
+
+    // Helper: Convert result to score matching Excel formula
+    // =IF(E6="ผ่าน",2,IF(E6="ดำเนินการบางส่วน",1,IF(E6="ไม่ผ่าน",0,IF(E6="ไม่เกี่ยวข้อง","N/A",""))))
+    function getScoreFromResult(res) {
+      if (res === 'ผ่าน') return 2;
+      if (res === 'ดำเนินการบางส่วน') return 1;
+      if (res === 'ไม่ผ่าน') return 0;
+      if (res === 'ไม่เกี่ยวข้อง') return 'N/A';
+      return '';
+    }
+
+    // Helper: Evaluation interpretation matching Excel formula
+    // =IF(E6>=90,"ดีมาก",IF(E6>=80,"ดี",IF(E6>=70,"พอใช้","ต้องปรับปรุง")))
+    function getGradeLabel(percent) {
+      if (percent >= 90) return { text: 'ดีมาก', cls: 'res-excellent' };
+      if (percent >= 80) return { text: 'ดี', cls: 'res-good' };
+      if (percent >= 70) return { text: 'พอใช้', cls: 'res-fair' };
+      return { text: 'ต้องปรับปรุง', cls: 'res-improve' };
+    }
+
+    // Calculate summary for a given hospital
+    function calculateHospitalSummary(hospId) {
+      const state = hospitalState[hospId];
+      const byTopic = TOPICS.map(topicName => {
+        const rows = CHECKLIST_ITEMS.filter(i => i.topic === topicName);
+        let evaluatedCount = 0;
+        let scoreObtained = 0;
+
+        rows.forEach(r => {
+          const itemState = state.items[r.seq];
+          const res = itemState.result;
+          if (res !== '' && res !== 'ไม่เกี่ยวข้อง') {
+            evaluatedCount += 1;
+            const sc = getScoreFromResult(res);
+            if (typeof sc === 'number') {
+              scoreObtained += sc;
+            }
+          }
+        });
+
+        const maxScore = evaluatedCount * 2;
+        const percent = maxScore > 0 ? (scoreObtained / maxScore) * 100 : 0;
+        const grade = getGradeLabel(percent);
+
+        return {
+          topic: topicName,
+          count: evaluatedCount,
+          score: scoreObtained,
+          maxScore: maxScore,
+          percent: percent,
+          grade: grade
+        };
+      });
+
+      const totalCount = byTopic.reduce((acc, t) => acc + t.count, 0);
+      const totalScore = byTopic.reduce((acc, t) => acc + t.score, 0);
+      const totalMax = byTopic.reduce((acc, t) => acc + t.maxScore, 0);
+      const totalPercent = totalMax > 0 ? (totalScore / totalMax) * 100 : 0;
+      const totalGrade = getGradeLabel(totalPercent);
+
+      let itemsWithFiles = 0;
+      let totalFilesCount = 0;
+      let issueCount = 0;
+      let ssjApprovedCount = 0;
+      let ssjReviewedCount = 0;
+      let ssjCommentCount = 0;
+      CHECKLIST_ITEMS.forEach(r => {
+        const stItem = state.items[r.seq];
+        if (stItem.files.length > 0) {
+          itemsWithFiles += 1;
+          totalFilesCount += stItem.files.length;
+        }
+        const sc = getScoreFromResult(stItem.result);
+        if (sc === 0 || sc === 1) {
+          issueCount += 1;
+        }
+        if (stItem.ssjStatus === 'รับรองผล') {
+          ssjApprovedCount += 1;
+        }
+        if (stItem.ssjStatus !== '') {
+          ssjReviewedCount += 1;
+        }
+        if (stItem.ssjComment && stItem.ssjComment.trim() !== '') {
+          ssjCommentCount += 1;
+        }
+      });
+
+      return {
+        byTopic,
+        total: {
+          count: totalCount,
+          score: totalScore,
+          maxScore: totalMax,
+          percent: totalPercent,
+          grade: totalGrade,
+          itemsWithFiles,
+          totalFilesCount,
+          issueCount,
+          ssjApprovedCount,
+          ssjReviewedCount,
+          ssjCommentCount
+        }
+      };
+    }
+
+    // Format file size
+    function formatBytes(bytes) {
+      if (!bytes || bytes === 0) return '0 KB';
+      const kb = bytes / 1024;
+      if (kb < 1024) return kb.toFixed(1) + ' KB';
+      return (kb / 1024).toFixed(2) + ' MB';
+    }
+
+    // Initialize UI
+    function initUI() {
+      const hospSelect = document.getElementById('hospital-select');
+      TRANG_HOSPITALS.forEach((h, idx) => {
+        const opt = document.createElement('option');
+        opt.value = h.id;
+        opt.textContent = `${idx + 1}. ${h.name}`;
+        hospSelect.appendChild(opt);
+      });
+
+      hospSelect.addEventListener('change', (e) => {
+        currentHospitalId = e.target.value;
+        syncMetaInputs();
+        renderActiveView();
+      });
+
+      document.getElementById('eval-date').addEventListener('input', (e) => {
+        hospitalState[currentHospitalId].evalDate = e.target.value;
+        if (currentTab !== 'checklist') renderActiveView();
+      });
+
+      document.getElementById('eval-round').addEventListener('input', (e) => {
+        hospitalState[currentHospitalId].evalRound = e.target.value;
+        if (currentTab !== 'checklist') renderActiveView();
+      });
+
+      document.getElementById('evaluator-name').addEventListener('input', (e) => {
+        hospitalState[currentHospitalId].evaluator = e.target.value;
+        if (currentTab !== 'checklist') renderActiveView();
+      });
+
+      // Tabs
+      document.querySelectorAll('.tab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          currentTab = btn.getAttribute('data-tab');
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          renderActiveView();
+        });
+      });
+
+      // Topic Filter Bar
+      renderTopicFilterBar();
+
+      // Instructions Table
+      renderInstructions();
+
+      // Modal close
+      document.getElementById('file-modal-close').addEventListener('click', closeFileModal);
+      document.getElementById('file-modal').addEventListener('click', (e) => {
+        if (e.target.id === 'file-modal') closeFileModal();
+      });
+
+      const dashFilterEl = document.getElementById('dash-filter-status');
+      if (dashFilterEl) {
+        dashFilterEl.addEventListener('change', (e) => {
+          currentDashFilter = e.target.value;
+          renderDashboardView();
+        });
+      }
+
+      const ssjInspectorEl = document.getElementById('ssj-inspector-name');
+      if (ssjInspectorEl) {
+        ssjInspectorEl.addEventListener('input', (e) => {
+          hospitalState[currentHospitalId].ssjInspector = e.target.value;
+        });
+      }
+
+      const ssjDateEl = document.getElementById('ssj-inspect-date');
+      if (ssjDateEl) {
+        ssjDateEl.addEventListener('input', (e) => {
+          hospitalState[currentHospitalId].ssjInspectDate = e.target.value;
+        });
+      }
+
+      const ssjFilterEl = document.getElementById('ssj-filter-mode');
+      if (ssjFilterEl) {
+        ssjFilterEl.addEventListener('change', (e) => {
+          currentSsjFilterMode = e.target.value;
+          renderSsjVerifyView();
+        });
+      }
+
+      const ssjApproveReadyBtn = document.getElementById('ssj-approve-ready-btn');
+      if (ssjApproveReadyBtn) {
+        ssjApproveReadyBtn.addEventListener('click', () => {
+          const st = hospitalState[currentHospitalId];
+          CHECKLIST_ITEMS.forEach(item => {
+            const it = st.items[item.seq];
+            if (it.result !== '' && it.files.length > 0) {
+              it.ssjStatus = 'รับรองผล';
+            }
+          });
+          renderSsjVerifyView();
+        });
+      }
+
+      const submitTopBtn = document.getElementById('submit-checklist-top-btn');
+      if (submitTopBtn) {
+        submitTopBtn.addEventListener('click', handleSubmitChecklist);
+      }
+
+      const submitBottomBtn = document.getElementById('submit-checklist-bottom-btn');
+      if (submitBottomBtn) {
+        submitBottomBtn.addEventListener('click', handleSubmitChecklist);
+      }
+
+      syncMetaInputs();
+      renderActiveView();
+    }
+
+    function handleSubmitChecklist() {
+      const st = hospitalState[currentHospitalId];
+      const hospObj = TRANG_HOSPITALS.find(h => h.id === currentHospitalId);
+      const sum = calculateHospitalSummary(currentHospitalId);
+
+      let anyAnswered = false;
+      let missingDetailsSeqs = [];
+      CHECKLIST_ITEMS.forEach(item => {
+        const it = st.items[item.seq];
+        if (it.result !== '') {
+          anyAnswered = true;
+        }
+        const sc = getScoreFromResult(it.result);
+        if ((sc === 0 || sc === 1) && (!it.finding.trim() || !it.measure.trim() || !it.responsible.trim())) {
+          missingDetailsSeqs.push(item.seq);
+        }
+      });
+
+      if (!anyAnswered) {
+        st.submitted = false;
+        st.submitWarning = `กรุณาเลือกผลประเมินของ ${hospObj ? hospObj.name : 'โรงพยาบาล'} อย่างน้อย 1 ข้อก่อนกดส่งแบบประเมิน`;
+        updateChecklistSubmitUI();
+        const banner = document.getElementById('checklist-submit-banner');
+        if (banner) banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        return;
+      }
+
+      if (!st.evalDate) {
+        const today = new Date().toISOString().split('T')[0];
+        st.evalDate = today;
+        const evalDateInput = document.getElementById('eval-date');
+        if (evalDateInput) evalDateInput.value = today;
+      }
+
+      const now = new Date();
+      st.submitted = true;
+      st.submittedAt = now.toLocaleString('th-TH', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      if (missingDetailsSeqs.length > 0) {
+        st.submitWarning = `หมายเหตุ: ข้อที่ ${missingDetailsSeqs.join(', ')} ได้ 0 หรือ 1 คะแนน แนะนำให้ระบุข้อค้นพบ มาตรการแก้ไข และผู้รับผิดชอบให้ครบถ้วน`;
+      } else {
+        st.submitWarning = '';
+      }
+
+      updateChecklistSubmitUI();
+      const banner = document.getElementById('checklist-submit-banner');
+      if (banner) banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function updateChecklistSubmitUI() {
+      const st = hospitalState[currentHospitalId];
+      const hospObj = TRANG_HOSPITALS.find(h => h.id === currentHospitalId);
+      const sum = calculateHospitalSummary(currentHospitalId);
+
+      const banner = document.getElementById('checklist-submit-banner');
+      const footerSum = document.getElementById('checklist-footer-summary');
+      const topBtn = document.getElementById('submit-checklist-top-btn');
+      const bottomBtn = document.getElementById('submit-checklist-bottom-btn');
+
+      if (footerSum) {
+        footerSum.textContent = `สรุป ${hospObj ? hospObj.name : ''}: ประเมินแล้ว ${sum.total.count} ข้อ | คะแนน ${sum.total.score}/${sum.total.maxScore} (${sum.total.percent.toFixed(2)}% - ${sum.total.grade.text}) | แนบเอกสาร ${sum.total.itemsWithFiles} ข้อ`;
+      }
+
+      if (topBtn && bottomBtn) {
+        const btnText = st.submitted ? 'อัปเดตการส่งแบบประเมิน' : 'ส่งแบบประเมิน';
+        topBtn.textContent = btnText;
+        bottomBtn.textContent = btnText;
+      }
+
+      if (!banner) return;
+      banner.className = 'submit-status-banner';
+      banner.innerHTML = '';
+
+      if (st.submitted) {
+        banner.classList.add('submitted');
+        const infoDiv = document.createElement('div');
+        infoDiv.innerHTML = `<strong>ส่งแบบประเมินเรียบร้อยแล้ว:</strong> ${hospObj ? hospObj.name : ''} — บันทึกส่งเมื่อ ${st.submittedAt} (ประเมินแล้ว ${sum.total.count} ข้อ | คะแนน ${sum.total.score}/${sum.total.maxScore} คิดเป็น ${sum.total.percent.toFixed(2)}% | แนบเอกสาร ${sum.total.itemsWithFiles} ข้อ)` +
+          (st.submitWarning ? `<div style="margin-top:4px;color:var(--partial-ink);font-weight:600;">${st.submitWarning}</div>` : '');
+
+        const actionsWrap = document.createElement('div');
+        actionsWrap.style.display = 'flex';
+        actionsWrap.style.gap = '8px';
+        actionsWrap.style.flexWrap = 'wrap';
+
+        const viewSumBtn = document.createElement('button');
+        viewSumBtn.type = 'button';
+        viewSumBtn.className = 'btn btn-secondary';
+        viewSumBtn.textContent = 'ดูสรุปผลประเมิน';
+        viewSumBtn.addEventListener('click', () => switchToTab('summary', currentHospitalId));
+
+        const viewSsjBtn = document.createElement('button');
+        viewSsjBtn.type = 'button';
+        viewSsjBtn.className = 'btn btn-secondary';
+        viewSsjBtn.textContent = 'ไปหน้า สสจ. ตรวจรับรอง';
+        viewSsjBtn.addEventListener('click', () => switchToTab('ssj-verify', currentHospitalId));
+
+        actionsWrap.appendChild(viewSumBtn);
+        actionsWrap.appendChild(viewSsjBtn);
+
+        banner.appendChild(infoDiv);
+        banner.appendChild(actionsWrap);
+      } else if (st.submitWarning) {
+        banner.classList.add('warning');
+        banner.textContent = st.submitWarning;
+      }
+    }
+
+    function syncMetaInputs() {
+      const st = hospitalState[currentHospitalId];
+      document.getElementById('hospital-select').value = currentHospitalId;
+      document.getElementById('eval-date').value = st.evalDate;
+      document.getElementById('eval-round').value = st.evalRound;
+      document.getElementById('evaluator-name').value = st.evaluator;
+      const ssjInspectorEl = document.getElementById('ssj-inspector-name');
+      if (ssjInspectorEl) ssjInspectorEl.value = st.ssjInspector || '';
+      const ssjDateEl = document.getElementById('ssj-inspect-date');
+      if (ssjDateEl) ssjDateEl.value = st.ssjInspectDate || '';
+    }
+
+    function renderTopicFilterBar() {
+      const bars = [
+        document.getElementById('topic-filter-bar'),
+        document.getElementById('ssj-topic-filter-bar')
+      ];
+
+      bars.forEach(bar => {
+        if (!bar) return;
+        bar.innerHTML = '';
+
+        const allBtn = document.createElement('button');
+        allBtn.type = 'button';
+        allBtn.className = 'topic-pill' + (currentTopicFilter === 'ALL' ? ' active' : '');
+        allBtn.textContent = 'ทุกประเด็น (1–6)';
+        allBtn.addEventListener('click', () => {
+          currentTopicFilter = 'ALL';
+          renderTopicFilterBar();
+          if (currentTab === 'checklist') renderChecklistTable();
+          if (currentTab === 'ssj-verify') renderSsjVerifyView();
+        });
+        bar.appendChild(allBtn);
+
+        TOPICS.forEach(topic => {
+          const btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'topic-pill' + (currentTopicFilter === topic ? ' active' : '');
+          btn.textContent = topic;
+          btn.addEventListener('click', () => {
+            currentTopicFilter = topic;
+            renderTopicFilterBar();
+            if (currentTab === 'checklist') renderChecklistTable();
+            if (currentTab === 'ssj-verify') renderSsjVerifyView();
+          });
+          bar.appendChild(btn);
+        });
+      });
+    }
+
+    function renderActiveView() {
+      const dashEl = document.getElementById('view-dashboard');
+      if (dashEl) dashEl.style.display = currentTab === 'dashboard' ? 'block' : 'none';
+      document.getElementById('view-checklist').style.display = currentTab === 'checklist' ? 'block' : 'none';
+      const ssjEl = document.getElementById('view-ssj');
+      if (ssjEl) ssjEl.style.display = currentTab === 'ssj-verify' ? 'block' : 'none';
+      document.getElementById('view-summary').style.display = currentTab === 'summary' ? 'block' : 'none';
+      document.getElementById('view-all-hospitals').style.display = currentTab === 'all-hospitals' ? 'block' : 'none';
+      document.getElementById('view-instructions').style.display = currentTab === 'instructions' ? 'block' : 'none';
+
+      if (currentTab === 'dashboard') {
+        renderDashboardView();
+      } else if (currentTab === 'checklist') {
+        renderChecklistTable();
+      } else if (currentTab === 'ssj-verify') {
+        renderSsjVerifyView();
+      } else if (currentTab === 'summary') {
+        renderSummaryTable();
+      } else if (currentTab === 'all-hospitals') {
+        renderAllHospitalsTable();
+      }
+    }
+
+    function switchToTab(tabName, hospId) {
+      if (hospId) {
+        currentHospitalId = hospId;
+        syncMetaInputs();
+      }
+      currentTab = tabName;
+      document.querySelectorAll('.tab-btn').forEach(b => {
+        b.classList.toggle('active', b.getAttribute('data-tab') === tabName);
+      });
+      renderActiveView();
+    }
+
+    // Render Tab 0: หน้าหลัก Dashboard ผู้บริหาร สรุปข้อมูลแยกรายโรงพยาบาล
+    function renderDashboardView() {
+      const kpiGrid = document.getElementById('dashboard-kpi-grid');
+      const topicAvgContainer = document.getElementById('dashboard-topic-averages');
+      const hospGrid = document.getElementById('dashboard-hosp-grid');
+      if (!kpiGrid || !topicAvgContainer || !hospGrid) return;
+
+      const allSummaries = TRANG_HOSPITALS.map((h, idx) => ({
+        hospital: h,
+        index: idx + 1,
+        meta: hospitalState[h.id],
+        summary: calculateHospitalSummary(h.id)
+      }));
+
+      const evaluatedHospitals = allSummaries.filter(x => x.summary.total.count > 0);
+      const totalEvalItemsProv = allSummaries.reduce((acc, x) => acc + x.summary.total.count, 0);
+      const totalScoreProv = allSummaries.reduce((acc, x) => acc + x.summary.total.score, 0);
+      const totalMaxProv = allSummaries.reduce((acc, x) => acc + x.summary.total.maxScore, 0);
+      const provPercent = totalMaxProv > 0 ? (totalScoreProv / totalMaxProv) * 100 : 0;
+      const provGrade = getGradeLabel(provPercent);
+
+      const totalItemsWithFilesProv = allSummaries.reduce((acc, x) => acc + x.summary.total.itemsWithFiles, 0);
+      const totalFilesProv = allSummaries.reduce((acc, x) => acc + x.summary.total.totalFilesCount, 0);
+      const totalIssuesProv = allSummaries.reduce((acc, x) => acc + x.summary.total.issueCount, 0);
+
+      kpiGrid.innerHTML = `
+        <div class="kpi-card">
+          <span class="kpi-label">โรงพยาบาลที่บันทึกผลประเมินแล้ว</span>
+          <span class="kpi-value">${evaluatedHospitals.length} / ${TRANG_HOSPITALS.length} <span style="font-size:15px;font-weight:600;">แห่ง</span></span>
+          <span class="kpi-sub">รอประเมิน ${TRANG_HOSPITALS.length - evaluatedHospitals.length} แห่ง (ในจังหวัดตรัง)</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">คะแนนเฉลี่ยภาพรวมจังหวัด</span>
+          <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">
+            <span class="kpi-value">${provPercent.toFixed(2)}%</span>
+            <span class="eval-result-text ${provGrade.cls}">${provGrade.text}</span>
+          </div>
+          <span class="kpi-sub">คะแนนรวม ${totalScoreProv} / ${totalMaxProv} คะแนน (${totalEvalItemsProv} ข้อที่ประเมิน)</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">การแนบเอกสารหลักฐานรวม</span>
+          <span class="kpi-value">${totalItemsWithFilesProv} <span style="font-size:15px;font-weight:600;">ข้อ</span></span>
+          <span class="kpi-sub">ไฟล์แนบทั้งหมด ${totalFilesProv} ไฟล์ จากทั้ง 10 โรงพยาบาล</span>
+        </div>
+        <div class="kpi-card">
+          <span class="kpi-label">รายการที่ต้องติดตามแก้ไข (คะแนน 0 หรือ 1)</span>
+          <span class="kpi-value" style="color:${totalIssuesProv > 0 ? 'var(--fail-ink)' : 'var(--brand)'};">${totalIssuesProv} <span style="font-size:15px;font-weight:600;">รายการ</span></span>
+          <span class="kpi-sub">รายการที่ได้ "ไม่ผ่าน" หรือ "ดำเนินการบางส่วน"</span>
+        </div>
+      `;
+
+      // Provincial 6 Topics Averages
+      topicAvgContainer.innerHTML = '';
+      TOPICS.forEach((topicName, tIdx) => {
+        let tScore = 0;
+        let tMax = 0;
+        let tCount = 0;
+        allSummaries.forEach(x => {
+          const tRow = x.summary.byTopic[tIdx];
+          if (tRow) {
+            tScore += tRow.score;
+            tMax += tRow.maxScore;
+            tCount += tRow.count;
+          }
+        });
+        const tPct = tMax > 0 ? (tScore / tMax) * 100 : 0;
+        const topicDiv = document.createElement('div');
+        topicDiv.className = 'dash-topic-item';
+        topicDiv.innerHTML = `
+          <div class="dash-topic-top">
+            <span style="font-weight:600;color:var(--ink);">${topicName}</span>
+            <span style="font-weight:700;white-space:nowrap;">${tPct.toFixed(1)}% (${tScore}/${tMax})</span>
+          </div>
+          <div class="dash-bar-track">
+            <div class="dash-bar-fill" style="width:${Math.min(100, Math.max(0, tPct))}%;"></div>
+          </div>
+        `;
+        topicAvgContainer.appendChild(topicDiv);
+      });
+
+      // Filter hospitals for breakdown cards
+      const filteredHospitals = allSummaries.filter(item => {
+        if (currentDashFilter === 'EVALUATED') return item.summary.total.count > 0;
+        if (currentDashFilter === 'PENDING') return item.summary.total.count === 0;
+        if (currentDashFilter === 'HAS_ISSUES') return item.summary.total.issueCount > 0;
+        return true;
+      });
+
+      hospGrid.innerHTML = '';
+      if (filteredHospitals.length === 0) {
+        const emptyDiv = document.createElement('div');
+        emptyDiv.style.gridColumn = '1 / -1';
+        emptyDiv.style.padding = '32px';
+        emptyDiv.style.textAlign = 'center';
+        emptyDiv.style.color = 'var(--muted)';
+        emptyDiv.style.background = 'var(--surface-alt)';
+        emptyDiv.style.borderRadius = 'var(--radius-sm)';
+        emptyDiv.style.border = '1px dashed var(--border-strong)';
+        emptyDiv.textContent = 'ไม่พบโรงพยาบาลตามเงื่อนไขการกรองที่เลือก';
+        hospGrid.appendChild(emptyDiv);
+        return;
+      }
+
+      filteredHospitals.forEach(item => {
+        const h = item.hospital;
+        const st = item.meta;
+        const sum = item.summary;
+        const isCurrent = h.id === currentHospitalId;
+
+        const card = document.createElement('article');
+        card.className = 'dash-hosp-card' + (isCurrent ? ' selected-hosp' : '');
+
+        // Header
+        const headerDiv = document.createElement('div');
+        headerDiv.className = 'dash-hosp-header';
+
+        const titleWrap = document.createElement('div');
+        const h4 = document.createElement('h4');
+        h4.className = 'dash-hosp-title';
+        h4.textContent = `${item.index}. ${h.name}`;
+        const metaSub = document.createElement('div');
+        metaSub.className = 'dash-hosp-meta';
+        metaSub.textContent = `${h.district} | วันที่ประเมิน: ${st.evalDate || 'ยังไม่ระบุ'} | รอบ: ${st.evalRound || '-'}`;
+        titleWrap.appendChild(h4);
+        titleWrap.appendChild(metaSub);
+
+        const badgeSpan = document.createElement('span');
+        if (sum.total.count === 0) {
+          badgeSpan.className = 'eval-result-text score-na';
+          badgeSpan.textContent = 'รอการประเมิน (0.00%)';
+        } else {
+          badgeSpan.className = `eval-result-text ${sum.total.grade.cls}`;
+          badgeSpan.textContent = `${sum.total.grade.text} (${sum.total.percent.toFixed(2)}%)`;
+        }
+
+        headerDiv.appendChild(titleWrap);
+        headerDiv.appendChild(badgeSpan);
+        card.appendChild(headerDiv);
+
+        // 4 Metrics Row
+        const metricsRow = document.createElement('div');
+        metricsRow.className = 'dash-metrics-row';
+        metricsRow.innerHTML = `
+          <div class="dash-metric-item">
+            <span class="dash-metric-lbl">ประเมินแล้ว</span>
+            <span class="dash-metric-val">${sum.total.count} ข้อ</span>
+          </div>
+          <div class="dash-metric-item">
+            <span class="dash-metric-lbl">คะแนนรวม</span>
+            <span class="dash-metric-val">${sum.total.score} / ${sum.total.maxScore}</span>
+          </div>
+          <div class="dash-metric-item">
+            <span class="dash-metric-lbl">แนบเอกสาร</span>
+            <span class="dash-metric-val">${sum.total.itemsWithFiles} ข้อ (${sum.total.totalFilesCount} ไฟล์)</span>
+          </div>
+          <div class="dash-metric-item">
+            <span class="dash-metric-lbl">ต้องแก้ไข (0/1)</span>
+            <span class="dash-metric-val" style="color:${sum.total.issueCount > 0 ? 'var(--fail-ink)' : 'var(--ink)'};">${sum.total.issueCount} ข้อ</span>
+          </div>
+        `;
+        card.appendChild(metricsRow);
+
+        // 6 Topics Progress Breakdown
+        const topicList = document.createElement('div');
+        topicList.className = 'dash-topic-list';
+        sum.byTopic.forEach(tRow => {
+          const tItem = document.createElement('div');
+          tItem.className = 'dash-topic-item';
+          const pctText = tRow.count > 0 ? `${tRow.percent.toFixed(0)}% (${tRow.score}/${tRow.maxScore})` : 'ยังไม่ประเมิน';
+          tItem.innerHTML = `
+            <div class="dash-topic-top">
+              <span style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${tRow.topic}">${tRow.topic}</span>
+              <span style="font-weight:600;white-space:nowrap;">${pctText}</span>
+            </div>
+            <div class="dash-bar-track">
+              <div class="dash-bar-fill" style="width:${Math.min(100, Math.max(0, tRow.percent))}%;"></div>
+            </div>
+          `;
+          topicList.appendChild(tItem);
+        });
+        card.appendChild(topicList);
+
+        // Action Buttons for Executives
+        const actionsDiv = document.createElement('div');
+        actionsDiv.className = 'dash-card-actions';
+
+        const btnSummary = document.createElement('button');
+        btnSummary.type = 'button';
+        btnSummary.className = 'btn-sm';
+        btnSummary.textContent = 'ดูตารางสรุปผล รพ.';
+        btnSummary.addEventListener('click', () => {
+          switchToTab('summary', h.id);
+        });
+
+        const btnSsj = document.createElement('button');
+        btnSsj.type = 'button';
+        btnSsj.className = 'btn-sm';
+        btnSsj.textContent = `สสจ. รับรอง (${sum.total.ssjApprovedCount} ข้อ)`;
+        btnSsj.addEventListener('click', () => {
+          switchToTab('ssj-verify', h.id);
+        });
+
+        const btnChecklist = document.createElement('button');
+        btnChecklist.type = 'button';
+        btnChecklist.className = 'btn-sm btn-sm-primary';
+        btnChecklist.textContent = 'เปิดแบบประเมิน / แนบเอกสาร';
+        btnChecklist.addEventListener('click', () => {
+          switchToTab('checklist', h.id);
+        });
+
+        actionsDiv.appendChild(btnSummary);
+        actionsDiv.appendChild(btnSsj);
+        actionsDiv.appendChild(btnChecklist);
+        card.appendChild(actionsDiv);
+
+        hospGrid.appendChild(card);
+      });
+    }
+
+    function getSsjBadgeClass(status) {
+      if (status === 'รับรองผล') return 'ssj-badge ssj-approved';
+      if (status === 'ให้แก้ไข/เพิ่มเติมหลักฐาน') return 'ssj-badge ssj-revision';
+      if (status === 'ไม่รับรองผล') return 'ssj-badge ssj-rejected';
+      return 'ssj-badge ssj-pending';
+    }
+
+    function renderChecklistTable() {
+      const tbody = document.getElementById('checklist-tbody');
+      tbody.innerHTML = '';
+
+      const hospObj = TRANG_HOSPITALS.find(h => h.id === currentHospitalId);
+      document.getElementById('checklist-heading').textContent =
+        `แบบประเมิน Checklist — ${hospObj ? hospObj.name : ''}`;
+
+      const state = hospitalState[currentHospitalId];
+      let lastTopic = null;
+
+      const filteredItems = CHECKLIST_ITEMS.filter(item =>
+        currentTopicFilter === 'ALL' || item.topic === currentTopicFilter
+      );
+
+      filteredItems.forEach(item => {
+        if (item.topic !== lastTopic) {
+          lastTopic = item.topic;
+          const groupTr = document.createElement('tr');
+          groupTr.className = 'topic-group-row';
+          const groupTd = document.createElement('td');
+          groupTd.colSpan = 11;
+          groupTd.textContent = `ประเด็นกำกับติดตาม: ${item.topic}`;
+          groupTr.appendChild(groupTd);
+          tbody.appendChild(groupTr);
+        }
+
+        const itemState = state.items[item.seq];
+        const score = getScoreFromResult(itemState.result);
+        const needsDetail = (score === 0 || score === 1);
+
+        const tr = document.createElement('tr');
+        if (item.isSubHeader) {
+          tr.className = 'subhead-row';
+        }
+
+        // 1. ลำดับ
+        const tdSeq = document.createElement('td');
+        tdSeq.textContent = item.seq;
+        tr.appendChild(tdSeq);
+
+        // 2. รายการตรวจประเมิน / Checklist
+        const tdText = document.createElement('td');
+        tdText.textContent = item.text;
+        if (item.seq.indexOf('34.') === 0) {
+          tdText.style.paddingLeft = '28px';
+        }
+        tr.appendChild(tdText);
+
+        // 3. หลักฐานที่ควรตรวจสอบ
+        const tdEv = document.createElement('td');
+        tdEv.textContent = item.evidence || '-';
+        tr.appendChild(tdEv);
+
+        // 4. แนบเอกสารหลักฐาน (ทุกข้อ)
+        const tdAttach = document.createElement('td');
+        const attachWrap = document.createElement('div');
+        attachWrap.className = 'attach-zone';
+
+        const fileInputId = `file-${currentHospitalId}-${item.seq}`;
+        const fileLabel = document.createElement('label');
+        fileLabel.className = 'file-label-btn';
+        fileLabel.setAttribute('for', fileInputId);
+        fileLabel.textContent = '+ แนบเอกสาร';
+
+        const fileInput = document.createElement('input');
+        fileInput.type = 'file';
+        fileInput.id = fileInputId;
+        fileInput.multiple = true;
+        fileInput.className = 'file-input-hidden';
+        fileInput.addEventListener('change', (e) => {
+          handleFilesSelected(item.seq, e.target.files);
+          e.target.value = '';
+        });
+
+        attachWrap.appendChild(fileLabel);
+        attachWrap.appendChild(fileInput);
+
+        if (itemState.files.length > 0) {
+          const ul = document.createElement('ul');
+          ul.className = 'file-list';
+          itemState.files.forEach((f, fIdx) => {
+            const li = document.createElement('li');
+            li.className = 'file-item';
+
+            const nameBtn = document.createElement('button');
+            nameBtn.type = 'button';
+            nameBtn.className = 'file-name-btn';
+            nameBtn.textContent = `${f.name} (${formatBytes(f.size)})`;
+            nameBtn.addEventListener('click', () => openFileModal(item, f));
+
+            const delBtn = document.createElement('button');
+            delBtn.type = 'button';
+            delBtn.className = 'file-remove-btn';
+            delBtn.title = 'ลบเอกสารแนบ';
+            delBtn.setAttribute('aria-label', `ลบเอกสาร ${f.name}`);
+            delBtn.textContent = '×';
+            delBtn.addEventListener('click', () => {
+              itemState.files.splice(fIdx, 1);
+              markCloudDirty(currentHospitalId);
+              renderChecklistTable();
+            });
+
+            li.appendChild(nameBtn);
+            li.appendChild(delBtn);
+            ul.appendChild(li);
+          });
+          attachWrap.appendChild(ul);
+        }
+
+        tdAttach.appendChild(attachWrap);
+        tr.appendChild(tdAttach);
+
+        // 5. ผลประเมิน
+        const tdRes = document.createElement('td');
+        const sel = document.createElement('select');
+        sel.className = 'select';
+        sel.setAttribute('aria-label', `ผลประเมินข้อ ${item.seq}`);
+        const options = [
+          { value: '', label: '-- เลือกผลประเมิน --' },
+          { value: 'ผ่าน', label: 'ผ่าน (2)' },
+          { value: 'ดำเนินการบางส่วน', label: 'ดำเนินการบางส่วน (1)' },
+          { value: 'ไม่ผ่าน', label: 'ไม่ผ่าน (0)' },
+          { value: 'ไม่เกี่ยวข้อง', label: 'ไม่เกี่ยวข้อง (N/A)' }
+        ];
+        options.forEach(o => {
+          const opt = document.createElement('option');
+          opt.value = o.value;
+          opt.textContent = o.label;
+          sel.appendChild(opt);
+        });
+        sel.value = itemState.result;
+
+        // Score cell reference for live update
+        const tdScore = document.createElement('td');
+        tdScore.className = 'center-col';
+        const scoreBadge = document.createElement('span');
+        updateScoreBadgeElement(scoreBadge, score);
+        tdScore.appendChild(scoreBadge);
+
+        // Textareas references for live highlight when 0 or 1
+        const tdFinding = document.createElement('td');
+        const taFinding = document.createElement('textarea');
+        taFinding.className = 'textarea' + (needsDetail && !itemState.finding.trim() ? ' needs-attention' : '');
+        taFinding.placeholder = 'ระบุข้อค้นพบ/รายละเอียด';
+        taFinding.value = itemState.finding;
+        const hintFinding = document.createElement('div');
+        hintFinding.className = 'field-hint';
+        hintFinding.style.display = (needsDetail && !itemState.finding.trim()) ? 'block' : 'none';
+        hintFinding.textContent = 'กรุณาระบุข้อค้นพบ/สาเหตุ (กรณีได้ 0 หรือ 1 คะแนน)';
+        taFinding.addEventListener('input', (e) => {
+          itemState.finding = e.target.value;
+          const warn = (getScoreFromResult(itemState.result) === 0 || getScoreFromResult(itemState.result) === 1) && !itemState.finding.trim();
+          taFinding.classList.toggle('needs-attention', warn);
+          hintFinding.style.display = warn ? 'block' : 'none';
+        });
+        tdFinding.appendChild(taFinding);
+        tdFinding.appendChild(hintFinding);
+
+        const tdMeasure = document.createElement('td');
+        const taMeasure = document.createElement('textarea');
+        taMeasure.className = 'textarea' + (needsDetail && !itemState.measure.trim() ? ' needs-attention' : '');
+        taMeasure.placeholder = 'ระบุมาตรการแก้ไข/พัฒนา';
+        taMeasure.value = itemState.measure;
+        const hintMeasure = document.createElement('div');
+        hintMeasure.className = 'field-hint';
+        hintMeasure.style.display = (needsDetail && !itemState.measure.trim()) ? 'block' : 'none';
+        hintMeasure.textContent = 'กรุณาระบุมาตรการแก้ไข';
+        taMeasure.addEventListener('input', (e) => {
+          itemState.measure = e.target.value;
+          const warn = (getScoreFromResult(itemState.result) === 0 || getScoreFromResult(itemState.result) === 1) && !itemState.measure.trim();
+          taMeasure.classList.toggle('needs-attention', warn);
+          hintMeasure.style.display = warn ? 'block' : 'none';
+        });
+        tdMeasure.appendChild(taMeasure);
+        tdMeasure.appendChild(hintMeasure);
+
+        const tdResp = document.createElement('td');
+        const taResp = document.createElement('textarea');
+        taResp.className = 'textarea' + (needsDetail && !itemState.responsible.trim() ? ' needs-attention' : '');
+        taResp.placeholder = 'ระบุผู้รับผิดชอบและกำหนดแล้วเสร็จ';
+        taResp.value = itemState.responsible;
+        const hintResp = document.createElement('div');
+        hintResp.className = 'field-hint';
+        hintResp.style.display = (needsDetail && !itemState.responsible.trim()) ? 'block' : 'none';
+        hintResp.textContent = 'กรุณาระบุผู้รับผิดชอบและกำหนดแล้วเสร็จ';
+        taResp.addEventListener('input', (e) => {
+          itemState.responsible = e.target.value;
+          const warn = (getScoreFromResult(itemState.result) === 0 || getScoreFromResult(itemState.result) === 1) && !itemState.responsible.trim();
+          taResp.classList.toggle('needs-attention', warn);
+          hintResp.style.display = warn ? 'block' : 'none';
+        });
+        tdResp.appendChild(taResp);
+        tdResp.appendChild(hintResp);
+
+        sel.addEventListener('change', (e) => {
+          itemState.result = e.target.value;
+          const newScore = getScoreFromResult(itemState.result);
+          updateScoreBadgeElement(scoreBadge, newScore);
+          const req = (newScore === 0 || newScore === 1);
+
+          const warnF = req && !itemState.finding.trim();
+          taFinding.classList.toggle('needs-attention', warnF);
+          hintFinding.style.display = warnF ? 'block' : 'none';
+
+          const warnM = req && !itemState.measure.trim();
+          taMeasure.classList.toggle('needs-attention', warnM);
+          hintMeasure.style.display = warnM ? 'block' : 'none';
+
+          const warnR = req && !itemState.responsible.trim();
+          taResp.classList.toggle('needs-attention', warnR);
+          hintResp.style.display = warnR ? 'block' : 'none';
+
+          updateChecklistSubmitUI();
+        });
+
+        tdRes.appendChild(sel);
+        tr.appendChild(tdRes);
+        tr.appendChild(tdScore);
+        tr.appendChild(tdFinding);
+        tr.appendChild(tdMeasure);
+        tr.appendChild(tdResp);
+
+        // 10. การรับรองของ สสจ. (หลังตรวจหลักฐานแนบ)
+        const tdSsjStatus = document.createElement('td');
+        tdSsjStatus.className = 'ssj-cell';
+        const selSsj = document.createElement('select');
+        selSsj.className = 'select';
+        selSsj.setAttribute('aria-label', `การรับรองของ สสจ. ข้อ ${item.seq}`);
+        const ssjOptions = [
+          { value: '', label: '-- รอตรวจรับรอง --' },
+          { value: 'รับรองผล', label: 'รับรองผล (หลักฐานครบถ้วน)' },
+          { value: 'ให้แก้ไข/เพิ่มเติมหลักฐาน', label: 'ให้แก้ไข/เพิ่มเติมหลักฐาน' },
+          { value: 'ไม่รับรองผล', label: 'ไม่รับรองผล' }
+        ];
+        ssjOptions.forEach(o => {
+          const opt = document.createElement('option');
+          opt.value = o.value;
+          opt.textContent = o.label;
+          selSsj.appendChild(opt);
+        });
+        selSsj.value = itemState.ssjStatus || '';
+        selSsj.addEventListener('change', (e) => {
+          itemState.ssjStatus = e.target.value;
+        });
+        tdSsjStatus.appendChild(selSsj);
+        tr.appendChild(tdSsjStatus);
+
+        // 11. ข้อเสนอแนะของ สสจ. (ลงตรวจราชการระดับจังหวัด)
+        const tdSsjComment = document.createElement('td');
+        tdSsjComment.className = 'ssj-cell';
+        const taSsj = document.createElement('textarea');
+        taSsj.className = 'textarea';
+        taSsj.placeholder = 'ระบุข้อเสนอแนะของ สสจ. เมื่อลงตรวจราชการระดับจังหวัด';
+        taSsj.value = itemState.ssjComment || '';
+        taSsj.addEventListener('input', (e) => {
+          itemState.ssjComment = e.target.value;
+        });
+        tdSsjComment.appendChild(taSsj);
+        tr.appendChild(tdSsjComment);
+
+        tbody.appendChild(tr);
+      });
+
+      updateChecklistSubmitUI();
+    }
+
+    // Render Tab 1.5: สสจ. ตรวจรับรองผลประเมินและให้ข้อเสนอแนะรายข้อ (เมื่อลงตรวจราชการในระดับจังหวัด)
+    function renderSsjVerifyView() {
+      const tbody = document.getElementById('ssj-tbody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      const hospObj = TRANG_HOSPITALS.find(h => h.id === currentHospitalId);
+      const state = hospitalState[currentHospitalId];
+      const sum = calculateHospitalSummary(currentHospitalId);
+
+      const headingEl = document.getElementById('ssj-heading');
+      if (headingEl) {
+        headingEl.textContent = `สสจ.ตรัง ตรวจรับรองผลประเมินและให้ข้อเสนอแนะรายข้อ — ${hospObj ? hospObj.name : ''}`;
+      }
+
+      const ssjInspectorEl = document.getElementById('ssj-inspector-name');
+      if (ssjInspectorEl) ssjInspectorEl.value = state.ssjInspector || '';
+      const ssjDateEl = document.getElementById('ssj-inspect-date');
+      if (ssjDateEl) ssjDateEl.value = state.ssjInspectDate || '';
+
+      const progEl = document.getElementById('ssj-progress-summary');
+      if (progEl) {
+        progEl.textContent = `รพ. ประเมินแล้ว ${sum.total.count} ข้อ | แนบเอกสาร ${sum.total.itemsWithFiles} ข้อ | สสจ. รับรองแล้ว ${sum.total.ssjApprovedCount} ข้อ | มีข้อเสนอแนะ ${sum.total.ssjCommentCount} ข้อ`;
+      }
+
+      const filteredItems = CHECKLIST_ITEMS.filter(item => {
+        if (currentTopicFilter !== 'ALL' && item.topic !== currentTopicFilter) return false;
+        const stItem = state.items[item.seq];
+        if (currentSsjFilterMode === 'READY') {
+          return stItem.result !== '' || stItem.files.length > 0;
+        }
+        if (currentSsjFilterMode === 'PENDING_SSJ') {
+          return !stItem.ssjStatus;
+        }
+        if (currentSsjFilterMode === 'APPROVED') {
+          return stItem.ssjStatus === 'รับรองผล';
+        }
+        if (currentSsjFilterMode === 'REVISION') {
+          return stItem.ssjStatus === 'ให้แก้ไข/เพิ่มเติมหลักฐาน' || stItem.ssjStatus === 'ไม่รับรองผล';
+        }
+        return true;
+      });
+
+      if (filteredItems.length === 0) {
+        const emptyTr = document.createElement('tr');
+        const emptyTd = document.createElement('td');
+        emptyTd.colSpan = 7;
+        emptyTd.style.textAlign = 'center';
+        emptyTd.style.padding = '28px';
+        emptyTd.style.color = 'var(--muted)';
+        emptyTd.textContent = 'ไม่พบรายการตามตัวกรองที่เลือก';
+        emptyTr.appendChild(emptyTd);
+        tbody.appendChild(emptyTr);
+        return;
+      }
+
+      let lastTopic = null;
+      filteredItems.forEach(item => {
+        if (item.topic !== lastTopic) {
+          lastTopic = item.topic;
+          const groupTr = document.createElement('tr');
+          groupTr.className = 'topic-group-row';
+          const groupTd = document.createElement('td');
+          groupTd.colSpan = 7;
+          groupTd.textContent = `ประเด็นกำกับติดตาม: ${item.topic}`;
+          groupTr.appendChild(groupTd);
+          tbody.appendChild(groupTr);
+        }
+
+        const itemState = state.items[item.seq];
+        const score = getScoreFromResult(itemState.result);
+
+        const tr = document.createElement('tr');
+        if (item.isSubHeader) {
+          tr.className = 'subhead-row';
+        }
+
+        // 1. ลำดับ
+        const tdSeq = document.createElement('td');
+        tdSeq.textContent = item.seq;
+        tr.appendChild(tdSeq);
+
+        // 2. รายการตรวจประเมิน / Checklist + หลักฐานที่ควรตรวจ
+        const tdText = document.createElement('td');
+        if (item.seq.indexOf('34.') === 0) {
+          tdText.style.paddingLeft = '28px';
+        }
+        const mainTextDiv = document.createElement('div');
+        mainTextDiv.style.fontWeight = '600';
+        mainTextDiv.textContent = item.text;
+        tdText.appendChild(mainTextDiv);
+        if (item.evidence) {
+          const evSub = document.createElement('div');
+          evSub.style.fontSize = 'var(--fs-small)';
+          evSub.style.color = 'var(--muted)';
+          evSub.style.marginTop = '4px';
+          evSub.textContent = `หลักฐานที่ควรตรวจ: ${item.evidence}`;
+          tdText.appendChild(evSub);
+        }
+        tr.appendChild(tdText);
+
+        // 3. ผลประเมินตนเอง รพ. & คะแนน
+        const tdSelf = document.createElement('td');
+        const resDiv = document.createElement('div');
+        resDiv.style.display = 'flex';
+        resDiv.style.flexDirection = 'column';
+        resDiv.style.gap = '6px';
+        resDiv.style.alignItems = 'flex-start';
+
+        const resText = document.createElement('span');
+        resText.style.fontWeight = '700';
+        resText.textContent = itemState.result || 'ยังไม่ประเมิน';
+
+        const scBadge = document.createElement('span');
+        updateScoreBadgeElement(scBadge, score);
+        resDiv.appendChild(resText);
+        resDiv.appendChild(scBadge);
+        tdSelf.appendChild(resDiv);
+        tr.appendChild(tdSelf);
+
+        // 4. หลักฐานที่ รพ. แนบ (สสจ. คลิกดูหลักฐานแนบ)
+        const tdFiles = document.createElement('td');
+        if (itemState.files.length === 0) {
+          const noFileSpan = document.createElement('span');
+          noFileSpan.style.color = 'var(--muted)';
+          noFileSpan.style.fontSize = 'var(--fs-small)';
+          noFileSpan.textContent = 'ยังไม่ได้แนบเอกสารหลักฐาน';
+          tdFiles.appendChild(noFileSpan);
+        } else {
+          const ul = document.createElement('ul');
+          ul.className = 'file-list';
+          itemState.files.forEach(f => {
+            const li = document.createElement('li');
+            li.className = 'file-item';
+            const viewBtn = document.createElement('button');
+            viewBtn.type = 'button';
+            viewBtn.className = 'file-name-btn';
+            viewBtn.textContent = `เปิดดูหลักฐาน: ${f.name} (${formatBytes(f.size)})`;
+            viewBtn.addEventListener('click', () => openFileModal(item, f));
+            li.appendChild(viewBtn);
+            ul.appendChild(li);
+          });
+          tdFiles.appendChild(ul);
+        }
+        tr.appendChild(tdFiles);
+
+        // 5. ข้อค้นพบ / มาตรการแก้ไข / ผู้รับผิดชอบ ของ รพ.
+        const tdHospNotes = document.createElement('td');
+        tdHospNotes.style.fontSize = 'var(--fs-small)';
+        if (!itemState.finding && !itemState.measure && !itemState.responsible) {
+          tdHospNotes.style.color = 'var(--muted)';
+          tdHospNotes.textContent = '-';
+        } else {
+          tdHospNotes.innerHTML = `
+            <div><strong>ข้อค้นพบ:</strong> ${itemState.finding || '-'}</div>
+            <div style="margin-top:4px;"><strong>มาตรการแก้ไข:</strong> ${itemState.measure || '-'}</div>
+            <div style="margin-top:4px;"><strong>ผู้รับผิดชอบ:</strong> ${itemState.responsible || '-'}</div>
+          `;
+        }
+        tr.appendChild(tdHospNotes);
+
+        // 6. การรับรองของ สสจ. (หลังดูหลักฐานที่แนบ)
+        const tdSsjVerify = document.createElement('td');
+        tdSsjVerify.className = 'ssj-cell';
+        const verifyWrap = document.createElement('div');
+        verifyWrap.style.display = 'flex';
+        verifyWrap.style.flexDirection = 'column';
+        verifyWrap.style.gap = '6px';
+
+        const selSsj = document.createElement('select');
+        selSsj.className = 'select';
+        selSsj.setAttribute('aria-label', `การรับรองของ สสจ. ข้อ ${item.seq}`);
+        const ssjOptions = [
+          { value: '', label: '-- รอตรวจรับรอง --' },
+          { value: 'รับรองผล', label: 'รับรองผล (ตรวจหลักฐานแล้ว)' },
+          { value: 'ให้แก้ไข/เพิ่มเติมหลักฐาน', label: 'ให้แก้ไข/เพิ่มเติมหลักฐาน' },
+          { value: 'ไม่รับรองผล', label: 'ไม่รับรองผล' }
+        ];
+        ssjOptions.forEach(o => {
+          const opt = document.createElement('option');
+          opt.value = o.value;
+          opt.textContent = o.label;
+          selSsj.appendChild(opt);
+        });
+        selSsj.value = itemState.ssjStatus || '';
+
+        const statusBadge = document.createElement('span');
+        statusBadge.className = getSsjBadgeClass(itemState.ssjStatus);
+        statusBadge.textContent = itemState.ssjStatus || 'รอ สสจ. ตรวจรับรอง';
+
+        selSsj.addEventListener('change', (e) => {
+          itemState.ssjStatus = e.target.value;
+          statusBadge.className = getSsjBadgeClass(itemState.ssjStatus);
+          statusBadge.textContent = itemState.ssjStatus || 'รอ สสจ. ตรวจรับรอง';
+          const updatedSum = calculateHospitalSummary(currentHospitalId);
+          if (progEl) {
+            progEl.textContent = `รพ. ประเมินแล้ว ${updatedSum.total.count} ข้อ | แนบเอกสาร ${updatedSum.total.itemsWithFiles} ข้อ | สสจ. รับรองแล้ว ${updatedSum.total.ssjApprovedCount} ข้อ | มีข้อเสนอแนะ ${updatedSum.total.ssjCommentCount} ข้อ`;
+          }
+        });
+
+        verifyWrap.appendChild(selSsj);
+        verifyWrap.appendChild(statusBadge);
+        tdSsjVerify.appendChild(verifyWrap);
+        tr.appendChild(tdSsjVerify);
+
+        // 7. ข้อเสนอแนะของ สสจ. แต่ละข้อ (เมื่อลงตรวจราชการในระดับจังหวัด)
+        const tdSsjComment = document.createElement('td');
+        tdSsjComment.className = 'ssj-cell';
+        const taComment = document.createElement('textarea');
+        taComment.className = 'textarea';
+        taComment.placeholder = 'บันทึกข้อเสนอแนะ / ข้อสังเกตของ สสจ. จากการตรวจหลักฐานและลงตรวจราชการระดับจังหวัด...';
+        taComment.value = itemState.ssjComment || '';
+        taComment.addEventListener('input', (e) => {
+          itemState.ssjComment = e.target.value;
+          const updatedSum = calculateHospitalSummary(currentHospitalId);
+          if (progEl) {
+            progEl.textContent = `รพ. ประเมินแล้ว ${updatedSum.total.count} ข้อ | แนบเอกสาร ${updatedSum.total.itemsWithFiles} ข้อ | สสจ. รับรองแล้ว ${updatedSum.total.ssjApprovedCount} ข้อ | มีข้อเสนอแนะ ${updatedSum.total.ssjCommentCount} ข้อ`;
+          }
+        });
+        tdSsjComment.appendChild(taComment);
+        tr.appendChild(tdSsjComment);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateScoreBadgeElement(el, score) {
+      el.className = 'score-box';
+      if (score === 2) {
+        el.classList.add('score-2');
+        el.textContent = '2';
+      } else if (score === 1) {
+        el.classList.add('score-1');
+        el.textContent = '1';
+      } else if (score === 0) {
+        el.classList.add('score-0');
+        el.textContent = '0';
+      } else if (score === 'N/A') {
+        el.classList.add('score-na');
+        el.textContent = 'N/A';
+      } else {
+        el.textContent = '-';
+      }
+    }
+
+    function handleFilesSelected(seq, fileList) {
+      if (!fileList || fileList.length === 0) return;
+      const itemState = hospitalState[currentHospitalId].items[seq];
+      const filesArray = Array.from(fileList);
+      let processed = 0;
+
+      filesArray.forEach(file => {
+        const reader = new FileReader();
+        reader.onload = (ev) => {
+          itemState.files.push({
+            name: file.name,
+            size: file.size,
+            type: file.type || 'application/octet-stream',
+            lastModified: file.lastModified,
+            dataUrl: ev.target.result
+          });
+          processed += 1;
+          if (processed === filesArray.length) {
+            renderChecklistTable();
+          }
+        };
+        reader.onerror = () => {
+          itemState.files.push({
+            name: file.name,
+            size: file.size,
+            type: file.type || 'application/octet-stream',
+            dataUrl: null
+          });
+          processed += 1;
+          if (processed === filesArray.length) {
+            renderChecklistTable();
+          }
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    function openFileModal(item, fileObj) {
+      const modal = document.getElementById('file-modal');
+      const title = document.getElementById('file-modal-title');
+      const body = document.getElementById('file-modal-body');
+
+      title.textContent = `เอกสารแนบข้อ ${item.seq}: ${fileObj.name}`;
+      body.innerHTML = '';
+
+      const metaP = document.createElement('p');
+      metaP.style.marginTop = '0';
+      metaP.textContent = `รายการประเมิน: ${item.text} — ชื่อไฟล์: ${fileObj.name} (${formatBytes(fileObj.size)})`;
+      body.appendChild(metaP);
+
+      if (fileObj.dataUrl && fileObj.type.startsWith('image/')) {
+        const img = document.createElement('img');
+        img.src = fileObj.dataUrl;
+        img.alt = fileObj.name;
+        img.style.maxWidth = '100%';
+        img.style.borderRadius = '6px';
+        img.style.border = '1px solid var(--border)';
+        body.appendChild(img);
+      } else {
+        const infoBox = document.createElement('div');
+        infoBox.style.padding = '16px';
+        infoBox.style.background = 'var(--surface-alt)';
+        infoBox.style.border = '1px solid var(--border)';
+        infoBox.style.borderRadius = '6px';
+        infoBox.textContent = `บันทึกไฟล์แนบ "${fileObj.name}" สำหรับข้อ ${item.seq} เรียบร้อยแล้ว`;
+        body.appendChild(infoBox);
+      }
+
+      modal.classList.add('open');
+    }
+
+    function closeFileModal() {
+      document.getElementById('file-modal').classList.remove('open');
+    }
+
+    // Render Tab 2: สรุปผลประเมิน
+    function renderSummaryTable() {
+      const hospObj = TRANG_HOSPITALS.find(h => h.id === currentHospitalId);
+      const st = hospitalState[currentHospitalId];
+
+      document.getElementById('sum-hospital-name').textContent = hospObj ? hospObj.name : '-';
+      document.getElementById('sum-eval-date').textContent = st.evalDate || '-';
+      document.getElementById('sum-eval-round').textContent = st.evalRound || '-';
+      document.getElementById('sum-evaluator').textContent = st.evaluator || '-';
+
+      const summary = calculateHospitalSummary(currentHospitalId);
+      const tbody = document.getElementById('summary-tbody');
+      tbody.innerHTML = '';
+
+      summary.byTopic.forEach(row => {
+        const tr = document.createElement('tr');
+        tr.innerHTML = `
+          <td>${row.topic}</td>
+          <td class="num-col">${row.count}</td>
+          <td class="num-col">${row.score}</td>
+          <td class="num-col">${row.maxScore}</td>
+          <td class="num-col">${row.percent.toFixed(2)}%</td>
+          <td class="center-col"><span class="eval-result-text ${row.grade.cls}">${row.grade.text}</span></td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      const totalTr = document.createElement('tr');
+      totalTr.style.fontWeight = '700';
+      totalTr.style.background = 'var(--surface-alt)';
+      totalTr.innerHTML = `
+        <td>รวม</td>
+        <td class="num-col">${summary.total.count}</td>
+        <td class="num-col">${summary.total.score}</td>
+        <td class="num-col">${summary.total.maxScore}</td>
+        <td class="num-col">${summary.total.percent.toFixed(2)}%</td>
+        <td class="center-col"><span class="eval-result-text ${summary.total.grade.cls}">${summary.total.grade.text}</span></td>
+      `;
+      tbody.appendChild(totalTr);
+    }
+
+    // Render Tab 3: ภาพรวมทั้ง 10 โรงพยาบาล จ.ตรัง
+    function renderAllHospitalsTable() {
+      const tbody = document.getElementById('all-hospitals-tbody');
+      tbody.innerHTML = '';
+
+      TRANG_HOSPITALS.forEach((h, index) => {
+        const st = hospitalState[h.id];
+        const sum = calculateHospitalSummary(h.id);
+
+        const tr = document.createElement('tr');
+
+        const tdIdx = document.createElement('td');
+        tdIdx.textContent = index + 1;
+        tr.appendChild(tdIdx);
+
+        const tdName = document.createElement('td');
+        const selectBtn = document.createElement('button');
+        selectBtn.type = 'button';
+        selectBtn.className = 'hospital-grid-select';
+        selectBtn.textContent = h.name;
+        selectBtn.addEventListener('click', () => {
+          currentHospitalId = h.id;
+          syncMetaInputs();
+          currentTab = 'checklist';
+          document.querySelectorAll('.tab-btn').forEach(b => {
+            b.classList.toggle('active', b.getAttribute('data-tab') === 'checklist');
+          });
+          renderActiveView();
+        });
+        tdName.appendChild(selectBtn);
+        tr.appendChild(tdName);
+
+        const tdDist = document.createElement('td');
+        tdDist.textContent = h.district;
+        tr.appendChild(tdDist);
+
+        const tdDate = document.createElement('td');
+        tdDate.textContent = st.evalDate || '-';
+        tr.appendChild(tdDate);
+
+        const tdCount = document.createElement('td');
+        tdCount.className = 'num-col';
+        tdCount.textContent = sum.total.count;
+        tr.appendChild(tdCount);
+
+        const tdFiles = document.createElement('td');
+        tdFiles.className = 'num-col';
+        tdFiles.textContent = sum.total.itemsWithFiles;
+        tr.appendChild(tdFiles);
+
+        const tdSsjApp = document.createElement('td');
+        tdSsjApp.className = 'num-col ssj-cell';
+        tdSsjApp.style.fontWeight = '700';
+        tdSsjApp.textContent = sum.total.ssjApprovedCount;
+        tr.appendChild(tdSsjApp);
+
+        const tdScore = document.createElement('td');
+        tdScore.className = 'num-col';
+        tdScore.textContent = sum.total.score;
+        tr.appendChild(tdScore);
+
+        const tdMax = document.createElement('td');
+        tdMax.className = 'num-col';
+        tdMax.textContent = sum.total.maxScore;
+        tr.appendChild(tdMax);
+
+        const tdPct = document.createElement('td');
+        tdPct.className = 'num-col';
+        tdPct.textContent = `${sum.total.percent.toFixed(2)}%`;
+        tr.appendChild(tdPct);
+
+        const tdGrade = document.createElement('td');
+        tdGrade.className = 'center-col';
+        tdGrade.innerHTML = `<span class="eval-result-text ${sum.total.grade.cls}">${sum.total.grade.text}</span>`;
+        tr.appendChild(tdGrade);
+
+        tbody.appendChild(tr);
+      });
+    }
+
+    // Render Tab 4: คำชี้แจง
+    function renderInstructions() {
+      const tbody = document.getElementById('instructions-tbody');
+      tbody.innerHTML = '';
+      INSTRUCTIONS_DATA.forEach(row => {
+        const tr = document.createElement('tr');
+        const th = document.createElement('th');
+        th.textContent = row.label;
+        const td = document.createElement('td');
+        td.textContent = row.value;
+        tr.appendChild(th);
+        tr.appendChild(td);
+        tbody.appendChild(tr);
+      });
+    }
+
+    initUI();
+  </script>
+<script src="/cloud.js"></script>
+</body>
+</html>

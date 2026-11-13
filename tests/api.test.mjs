@@ -9,7 +9,7 @@ test('login, tampered cookie, authenticated upstream and conflict',async()=>{
  const login=response();await handler(req({action:'login',code:'test-pass'}),login);assert.equal(login.statusCode,200);assert.match(login.headers['Set-Cookie'],/HttpOnly; Secure; SameSite=Strict/);
  const cookie=login.headers['Set-Cookie'].split(';')[0];
  const tampered=response();await handler(req({action:'load'},{headers:{host:'example.test',cookie:cookie+'x'}}),tampered);assert.equal(tampered.statusCode,401);
- const oldFetch=globalThis.fetch;globalThis.fetch=async(url,options)=>{assert.equal(url,process.env.APPS_SCRIPT_URL);assert.equal(JSON.parse(options.body).secret,'backend-only');return {ok:true,json:async()=>({ok:false,conflict:true,error:'conflict'})}};
- try{const r=response();await handler(req({action:'save',secret:'attacker'},{headers:{host:'example.test',cookie}}),r);assert.equal(r.statusCode,409);assert.equal(r.body.conflict,true)}finally{globalThis.fetch=oldFetch;}
+ const oldFetch=globalThis.fetch;globalThis.fetch=async(url,options)=>{assert.equal(url,process.env.APPS_SCRIPT_URL);const sent=JSON.parse(options.body);assert.equal(sent.secret,'backend-only');assert.equal(sent.state.items['34'].result,'');assert.deepEqual(sent.state.items['34'].files,[]);assert.equal(sent.state.items['34.1'].result,'ผ่าน');return {ok:true,json:async()=>({ok:false,conflict:true,error:'conflict'})}};
+ try{const r=response();await handler(req({action:'save',secret:'attacker',state:{items:{'34':{result:'ผ่าน',files:[{id:'legacy'}]},'34.1':{result:'ผ่าน'}}}},{headers:{host:'example.test',cookie}}),r);assert.equal(r.statusCode,409);assert.equal(r.body.conflict,true)}finally{globalThis.fetch=oldFetch;}
  const cross=response();await handler(req({action:'login',code:'test-pass'},{headers:{host:'example.test',origin:'https://evil.test'}}),cross);assert.equal(cross.statusCode,403);
 });

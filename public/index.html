@@ -997,7 +997,8 @@
     .fit-screen-table td[colspan] { grid-column: 1 / -1 !important; }
     .fit-screen-table .topic-group-row td::before,
     .fit-screen-table td[colspan]::before { display: none; }
-    .fit-screen-table .subhead-row { border-style: dashed; }
+    .fit-screen-table .subhead-row { border-style: solid; border-color: var(--border-strong); }
+    .fit-screen-table .subhead-row td { padding: 16px !important; background: #eef6f6; color: var(--brand); }
     .fit-screen-table .attach-zone { min-width: 0; }
     .fit-screen-table :is(input, select, textarea, button, a, .file-list, .file-item) {
       min-width: 0; max-width: 100%; overflow-wrap: anywhere;
@@ -1468,7 +1469,7 @@
     function calculateHospitalSummary(hospId) {
       const state = hospitalState[hospId];
       const byTopic = TOPICS.map(topicName => {
-        const rows = CHECKLIST_ITEMS.filter(i => i.topic === topicName);
+        const rows = CHECKLIST_ITEMS.filter(i => i.topic === topicName && !i.isSubHeader);
         let evaluatedCount = 0;
         let scoreObtained = 0;
 
@@ -1511,6 +1512,7 @@
       let ssjReviewedCount = 0;
       let ssjCommentCount = 0;
       CHECKLIST_ITEMS.forEach(r => {
+        if (r.isSubHeader) return;
         const stItem = state.items[r.seq];
         if (stItem.files.length > 0) {
           itemsWithFiles += 1;
@@ -1645,6 +1647,7 @@
         ssjApproveReadyBtn.addEventListener('click', () => {
           const st = hospitalState[currentHospitalId];
           CHECKLIST_ITEMS.forEach(item => {
+            if (item.isSubHeader) return;
             const it = st.items[item.seq];
             if (it.result !== '' && it.files.length > 0) {
               it.ssjStatus = 'รับรองผล';
@@ -1676,6 +1679,7 @@
       let anyAnswered = false;
       let missingDetailsSeqs = [];
       CHECKLIST_ITEMS.forEach(item => {
+        if (item.isSubHeader) return;
         const it = st.items[item.seq];
         if (it.result !== '') {
           anyAnswered = true;
@@ -2092,6 +2096,21 @@
       return 'ssj-badge ssj-pending';
     }
 
+    function appendAssessmentHeading(tbody, item, columns) {
+      const row = document.createElement('tr');
+      row.className = 'subhead-row';
+      row.dataset.section = item.seq;
+      const cell = document.createElement('td');
+      cell.colSpan = columns;
+      const title = document.createElement('h3');
+      title.style.margin = '0';
+      title.style.fontSize = 'var(--fs-h3)';
+      title.textContent = item.seq + ' · ' + item.text;
+      cell.appendChild(title);
+      row.appendChild(cell);
+      tbody.appendChild(row);
+    }
+
     function renderChecklistTable() {
       const tbody = document.getElementById('checklist-tbody');
       tbody.innerHTML = '';
@@ -2119,14 +2138,16 @@
           tbody.appendChild(groupTr);
         }
 
+        if (item.isSubHeader) {
+          appendAssessmentHeading(tbody, item, 11);
+          return;
+        }
+
         const itemState = state.items[item.seq];
         const score = getScoreFromResult(itemState.result);
         const needsDetail = (score === 0 || score === 1);
 
         const tr = document.createElement('tr');
-        if (item.isSubHeader) {
-          tr.className = 'subhead-row';
-        }
 
         // 1. ลำดับ
         const tdSeq = document.createElement('td');
@@ -2384,7 +2405,8 @@
         progEl.textContent = `รพ. ประเมินแล้ว ${sum.total.count} ข้อ | แนบเอกสาร ${sum.total.itemsWithFiles} ข้อ | สสจ. รับรองแล้ว ${sum.total.ssjApprovedCount} ข้อ | มีข้อเสนอแนะ ${sum.total.ssjCommentCount} ข้อ`;
       }
 
-      const filteredItems = CHECKLIST_ITEMS.filter(item => {
+      const matchesSsjFilter = item => {
+        if (item.isSubHeader) return false;
         if (currentTopicFilter !== 'ALL' && item.topic !== currentTopicFilter) return false;
         const stItem = state.items[item.seq];
         if (currentSsjFilterMode === 'READY') {
@@ -2400,6 +2422,11 @@
           return stItem.ssjStatus === 'ให้แก้ไข/เพิ่มเติมหลักฐาน' || stItem.ssjStatus === 'ไม่รับรองผล';
         }
         return true;
+      };
+      const filteredItems = CHECKLIST_ITEMS.filter(item => {
+        if (!item.isSubHeader) return matchesSsjFilter(item);
+        return CHECKLIST_ITEMS.some(child =>
+          child.seq.startsWith(item.seq + '.') && matchesSsjFilter(child));
       });
 
       if (filteredItems.length === 0) {
@@ -2428,13 +2455,15 @@
           tbody.appendChild(groupTr);
         }
 
+        if (item.isSubHeader) {
+          appendAssessmentHeading(tbody, item, 7);
+          return;
+        }
+
         const itemState = state.items[item.seq];
         const score = getScoreFromResult(itemState.result);
 
         const tr = document.createElement('tr');
-        if (item.isSubHeader) {
-          tr.className = 'subhead-row';
-        }
 
         // 1. ลำดับ
         const tdSeq = document.createElement('td');

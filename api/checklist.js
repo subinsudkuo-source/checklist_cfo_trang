@@ -28,6 +28,12 @@ export default async function handler(req,res) {
   if(!['load','save','upload'].includes(action)) return res.status(400).json({ok:false,error:'Unknown action'});
   if(!process.env.APPS_SCRIPT_URL || !process.env.APPS_SCRIPT_SECRET) return res.status(503).json({ok:false,error:'ยังไม่ได้เชื่อมต่อ Apps Script'});
   if(JSON.stringify(body).length>4300000) return res.status(413).json({ok:false,error:'ไฟล์มีขนาดใหญ่เกินกำหนด'});
+  // Item 34 is a section heading; only 34.1–34.3 are assessable.
+  if(action==='save' && body.state?.items?.['34']) {
+    body={...body,state:{...body.state,items:{...body.state.items,
+      '34':{...body.state.items['34'],result:'',files:[],ssjStatus:'',ssjComment:''}
+    }}};
+  }
   try {
     const response=await fetch(process.env.APPS_SCRIPT_URL,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({...body,secret:process.env.APPS_SCRIPT_SECRET}),redirect:'follow',signal:AbortSignal.timeout(55000)});
     if(!response.ok) throw new Error('upstream');

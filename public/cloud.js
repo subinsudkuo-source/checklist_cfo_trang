@@ -22,7 +22,7 @@ function markCloudDirty(id=currentHospitalId) {
 }
 async function cloudSave() {
   if(!cloudReady||cloudBusy||cloudDirty.size===0) return;
-  cloudBusy=true; cloudMessage('กำลังบันทึกลง Google Sheets…');
+  cloudBusy=true; cloudMessage('กำลังบันทึกข้อมูล…');
   try {
     for(const [id,generation] of [...cloudDirty]) {
       const snapshot=JSON.parse(JSON.stringify(hospitalState[id]));
@@ -30,7 +30,7 @@ async function cloudSave() {
       cloudVersions[id]=data.version;
       if(cloudDirty.get(id)===generation) cloudDirty.delete(id);
     }
-    cloudMessage(cloudDirty.size?'มีข้อมูลใหม่รอบันทึก':'บันทึกลง Google Sheets แล้ว '+new Date().toLocaleTimeString('th-TH'));
+    cloudMessage(cloudDirty.size?'มีข้อมูลใหม่รอบันทึก':'บันทึกข้อมูลแล้ว '+new Date().toLocaleTimeString('th-TH'));
     if(cloudDirty.size) cloudTimer=setTimeout(cloudSave,500);
   } catch(error) {
     cloudMessage(error.message,true);

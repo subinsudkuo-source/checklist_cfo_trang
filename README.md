@@ -2,6 +2,14 @@
 
 แบบประเมินโรงพยาบาล 10 แห่งจาก HTML ต้นฉบับ เชื่อม Google Sheets และเก็บไฟล์แนบใน Google Drive ผ่าน Apps Script โดยเรียกผ่าน Vercel API
 
+## ระบบที่เผยแพร่
+
+- เว็บ: https://checklist-cfo-trang.vercel.app
+- ฐานข้อมูล: https://docs.google.com/spreadsheets/d/1cv8N3jRikfm12h_9ilYkuR--ZPkG__aObvuiDJlQAYU/edit
+- โฟลเดอร์ข้อมูล: https://drive.google.com/drive/folders/1vsgucl7xQi6KmLeRJqvNtI3ZnL_1xWbw
+
+รหัสเข้าใช้จัดส่งให้เจ้าของระบบแยกจาก repository ตัวแปรเชื่อมต่อจริงเก็บเป็น Secret ใน production ของ Vercel การ push สาขา `main` จะ deploy อัตโนมัติด้วยค่าตั้งค่าล่าสุด
+
 ## โครงสร้าง
 
 - `public/` หน้าเว็บภาษาไทย พร้อมบันทึกอัตโนมัติ สถานะบันทึก สำรอง JSON และโหลดล่าสุด

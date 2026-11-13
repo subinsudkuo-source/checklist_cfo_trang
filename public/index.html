@@ -949,6 +949,85 @@
         flex: 1 1 100%;
       }
     }
+    /* Each assessment stays within the available screen width. */
+    .container, .card, .field-group { min-width: 0; }
+    .fit-screen-wrap { overflow: visible; border: 0; border-radius: 0; }
+    .fit-screen-table { display: block; width: 100%; max-width: 100%; }
+    .fit-screen-table thead {
+      position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip-path: inset(50%); white-space: nowrap;
+    }
+    .fit-screen-table tbody { display: grid; gap: 18px; width: 100%; }
+    .fit-screen-table tbody tr {
+      display: grid; grid-template-columns: repeat(12, minmax(0, 1fr));
+      width: 100%; min-width: 0; border: 1px solid var(--border-strong);
+      border-radius: var(--radius); background: var(--surface); overflow: clip;
+    }
+    .fit-screen-table tbody td {
+      display: block; grid-column: span 4; min-width: 0 !important;
+      width: auto !important; max-width: 100%; padding: 12px !important;
+      border: 0; border-top: 1px solid var(--border);
+      text-align: left; white-space: normal; overflow-wrap: anywhere;
+    }
+    .fit-screen-table tbody td::before {
+      content: attr(data-field); display: block; margin-bottom: 7px;
+      font-size: var(--fs-label); font-weight: 700; color: var(--ink-secondary);
+    }
+    .fit-screen-table tbody td:first-child {
+      grid-column: span 2; background: var(--brand-soft); border-top: 0;
+      color: var(--brand); font-weight: 700;
+    }
+    .fit-screen-table tbody td:nth-child(2) {
+      grid-column: span 10; background: var(--brand-soft); border-top: 0;
+      font-weight: 700; font-size: var(--fs-h3);
+    }
+    .fit-screen-table tbody td:nth-child(2)::before { display: none; }
+    #checklist-tbody td:nth-child(3), #checklist-tbody td:nth-child(4),
+    #checklist-tbody td:nth-child(7), #checklist-tbody td:nth-child(8),
+    #checklist-tbody td:nth-child(9), #checklist-tbody td:nth-child(10),
+    #checklist-tbody td:nth-child(11) { grid-column: span 6; }
+    #checklist-tbody td:nth-child(6) { grid-column: span 2; }
+    #ssj-tbody td:nth-child(4) { grid-column: span 8; }
+    #ssj-tbody td:nth-child(5) { grid-column: 1 / -1; }
+    #ssj-tbody td:nth-child(6), #ssj-tbody td:nth-child(7) { grid-column: span 6; }
+    #all-hospitals-tbody td:nth-child(3), #all-hospitals-tbody td:nth-child(4) { grid-column: span 6; }
+    #all-hospitals-tbody td:last-child { grid-column: 1 / -1; }
+    .fit-screen-table .topic-group-row { border: 0; border-radius: 6px; }
+    .fit-screen-table .topic-group-row td,
+    .fit-screen-table td[colspan] { grid-column: 1 / -1 !important; }
+    .fit-screen-table .topic-group-row td::before,
+    .fit-screen-table td[colspan]::before { display: none; }
+    .fit-screen-table .subhead-row { border-style: dashed; }
+    .fit-screen-table .attach-zone { min-width: 0; }
+    .fit-screen-table :is(input, select, textarea, button, a, .file-list, .file-item) {
+      min-width: 0; max-width: 100%; overflow-wrap: anywhere;
+    }
+    .fit-screen-table :is(input, select, textarea) { width: 100%; }
+    .fit-screen-table textarea { min-height: 86px; }
+    .fit-screen-table .file-name-btn { flex: 1; }
+    .fit-screen-table .file-remove-btn { flex-shrink: 0; }
+    .ssj-banner > div, .nav-tabs > button, .topic-pill { min-width: 0; max-width: 100%; }
+    .nav-tabs > button, .topic-pill, #ssj-approve-ready-btn { white-space: normal; overflow-wrap: anywhere; }
+    @media (max-width: 900px) {
+      .fit-screen-table tbody tr { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .fit-screen-table tbody td { grid-column: span 1 !important; }
+      .fit-screen-table tbody td:first-child,
+      .fit-screen-table tbody td:nth-child(2),
+      .fit-screen-table .topic-group-row td,
+      .fit-screen-table td[colspan], #ssj-tbody td:nth-child(5),
+      #all-hospitals-tbody td:last-child { grid-column: 1 / -1 !important; }
+      .fit-screen-table tbody td:first-child { padding-block: 7px !important; }
+      .fit-screen-table tbody td:first-child::before { display: inline; margin-right: 8px; }
+      .ssj-banner > div { flex-basis: 100% !important; width: 100%; }
+    }
+    @media (max-width: 560px) {
+      .fit-screen-table tbody tr { grid-template-columns: minmax(0, 1fr); }
+      .fit-screen-table tbody td { grid-column: 1 / -1 !important; }
+      .fit-screen-table tbody { gap: 14px; }
+      .fit-screen-table tbody td { padding: 12px !important; }
+      #ssj-approve-ready-btn { width: 100% !important; }
+    }
+
   </style>
 </head>
 <body><style>[hidden]{display:none!important}#cloud-login{position:fixed;inset:0;background:rgba(15,23,42,.88);z-index:10000;display:grid;place-items:center;padding:20px}#cloud-login form{background:white;padding:32px;border-radius:12px;width:min(440px,100%)}#cloud-login input{margin:12px 0}</style><div id="cloud-login"><form id="cloud-login-form"><h2>Checklist CFO จังหวัดตรัง</h2><p>เข้าสู่ระบบเพื่อเรียกดูและบันทึกข้อมูลโรงพยาบาล</p><label for="cloud-code">รหัสเข้าใช้งาน</label><input class="input" id="cloud-code" type="password" required autocomplete="current-password"><button class="btn btn-primary" type="submit">เข้าสู่ระบบ</button><p id="cloud-login-error" role="alert" style="color:#b91c1c"></p></form></div>
@@ -2740,6 +2819,43 @@
     function escapeHtml(value) {
       return String(value || '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
     }
+    function fitAssessmentRows(tbodyId) {
+      const tbody = document.getElementById(tbodyId);
+      const table = tbody.closest('table');
+      table.classList.add('fit-screen-table');
+      table.setAttribute('role', 'table');
+      table.parentElement.classList.add('fit-screen-wrap');
+      tbody.setAttribute('role', 'rowgroup');
+      const labels = Array.from(table.querySelectorAll('thead th'), th =>
+        th.innerText.replace(/\s+/g, ' ').trim());
+      Array.from(tbody.rows).forEach(row => {
+        row.setAttribute('role', 'row');
+        const sequence = row.cells[0]?.textContent.trim();
+        Array.from(row.cells).forEach((cell, index) => {
+          cell.setAttribute('role', 'cell');
+          if (cell.colSpan > 1) return;
+          cell.dataset.field = labels[index] || '';
+          cell.querySelectorAll('select, textarea, input').forEach(control => {
+            if (!control.hasAttribute('aria-label')) {
+              control.setAttribute('aria-label', `${labels[index]} — ลำดับ ${sequence}`);
+            }
+          });
+        });
+      });
+    }
+    const unfittedChecklist = renderChecklistTable;
+    renderChecklistTable = function(...args) {
+      unfittedChecklist(...args); fitAssessmentRows('checklist-tbody');
+    };
+    const unfittedSsj = renderSsjVerifyView;
+    renderSsjVerifyView = function(...args) {
+      unfittedSsj(...args); fitAssessmentRows('ssj-tbody');
+    };
+    const unfittedHospitals = renderAllHospitalsTable;
+    renderAllHospitalsTable = function(...args) {
+      unfittedHospitals(...args); fitAssessmentRows('all-hospitals-tbody');
+    };
+
     initUI();
   </script>
 <script src="/cloud.js"></script>

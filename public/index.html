@@ -1028,6 +1028,17 @@
       #ssj-approve-ready-btn { width: 100% !important; }
     }
 
+    .review-summary-meta { display: flex; flex-wrap: wrap; gap: 10px 24px; margin-bottom: 16px; }
+    .review-summary-note { padding: 14px 16px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: var(--radius-sm); }
+    .review-summary-card { margin-top: 18px; padding: 18px; border: 1px solid var(--border); border-radius: var(--radius); min-width: 0; }
+    .review-summary-card h3 { margin: 0 0 14px; font-size: var(--fs-h3); overflow-wrap: anywhere; }
+    .review-summary-total { background: var(--brand-soft); border-color: var(--brand); }
+    .review-summary-metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 14px; }
+    .review-summary-metrics dl { margin: 0; min-width: 0; }
+    .review-summary-metrics dt { color: var(--ink-secondary); font-size: var(--fs-label); }
+    .review-summary-metrics dd { margin: 4px 0 0; font-weight: 700; font-size: var(--fs-h3); overflow-wrap: anywhere; }
+    .review-summary-footnote { margin: 14px 0 0; color: var(--muted); font-size: var(--fs-small); }
+
   </style>
 </head>
 <body><style>[hidden]{display:none!important}#cloud-login{position:fixed;inset:0;background:rgba(15,23,42,.88);z-index:10000;display:grid;place-items:center;padding:20px}#cloud-login form{background:white;padding:32px;border-radius:12px;width:min(440px,100%)}#cloud-login input{margin:12px 0}</style><div id="cloud-login"><form id="cloud-login-form"><h2>Checklist CFO จังหวัดตรัง</h2><p>เข้าสู่ระบบเพื่อเรียกดูและบันทึกข้อมูลโรงพยาบาล</p><label for="cloud-code">รหัสเข้าใช้งาน</label><input class="input" id="cloud-code" type="password" required autocomplete="current-password"><button class="btn btn-primary" type="submit">เข้าสู่ระบบ</button><p id="cloud-login-error" role="alert" style="color:#b91c1c"></p></form></div>
@@ -1066,7 +1077,8 @@
       <button type="button" class="tab-btn active" data-tab="dashboard">Dashboard</button>
       <button type="button" class="tab-btn" data-tab="checklist">แบบประเมินตนเอง รพ. และแนบเอกสาร</button>
       <button type="button" class="tab-btn" data-tab="ssj-verify">สสจ. ตรวจรับรองและข้อเสนอแนะ (ตรวจราชการระดับจังหวัด)</button>
-      <button type="button" class="tab-btn" data-tab="summary">สรุปผลประเมิน (รายโรงพยาบาล)</button>
+      <button type="button" class="tab-btn" data-tab="summary">สรุปผลการประเมินตนเอง (โรงพยาบาล)</button>
+      <button type="button" class="tab-btn" data-tab="certified-summary">สรุปผลประเมินหลังตรวจรับรอง (โรงพยาบาล)</button>
       <button type="button" class="tab-btn" data-tab="all-hospitals">สถานะการประเมินทั้ง 10 โรงพยาบาล จ.ตรัง</button>
       <button type="button" class="tab-btn" data-tab="instructions">คำชี้แจง</button>
     </nav>
@@ -1194,7 +1206,7 @@
 
     <!-- TAB 2: สรุปผลประเมิน -->
     <section id="view-summary" class="card" style="display: none;">
-      <h2 class="section-title">สรุปผลการประเมินการกำกับติดตามการบริหารการเงินการคลัง</h2>
+      <h2 class="section-title">สรุปผลการประเมินตนเอง (โรงพยาบาล)</h2>
       <div style="display: flex; flex-wrap: wrap; gap: 24px; margin-bottom: 16px; font-size: var(--fs-table);">
         <div><strong>โรงพยาบาล:</strong> <span id="sum-hospital-name">-</span></div>
         <div><strong>วันที่ประเมิน:</strong> <span id="sum-eval-date">-</span></div>
@@ -1203,7 +1215,7 @@
       </div>
 
       <div class="table-wrap">
-        <table aria-label="ตารางสรุปผลการประเมิน">
+        <table aria-label="ตารางสรุปผลการประเมินตนเอง">
           <thead>
             <tr>
               <th>ประเด็นกำกับติดตาม</th>
@@ -1250,6 +1262,14 @@
           </table>
         </div>
       </div>
+    </section>
+
+    <section id="view-certified-summary" class="card" style="display: none;">
+      <h2 class="section-title">สรุปผลประเมินหลังตรวจรับรอง (โรงพยาบาล)</h2>
+      <div id="certified-summary-meta" class="review-summary-meta"></div>
+      <p class="review-summary-note">คะแนนด้านล่างใช้ผลประเมินตนเองเฉพาะข้อที่ สสจ. รับรองผลแล้ว ข้อรอตรวจ ให้แก้ไข หรือไม่รับรองยังไม่นำมาคิดคะแนน ข้อที่ไม่เกี่ยวข้อง (N/A) ไม่นับคะแนนเต็ม และข้อ 34 เป็นหัวข้อใหญ่</p>
+      <div id="certified-summary-total" aria-live="polite"></div>
+      <div id="certified-summary-topics"></div>
     </section>
 
     <!-- TAB 3: ภาพรวมทั้ง 10 โรงพยาบาล จ.ตรัง -->
@@ -1839,6 +1859,7 @@
       const ssjEl = document.getElementById('view-ssj');
       if (ssjEl) ssjEl.style.display = currentTab === 'ssj-verify' ? 'block' : 'none';
       document.getElementById('view-summary').style.display = currentTab === 'summary' ? 'block' : 'none';
+      document.getElementById('view-certified-summary').style.display = currentTab === 'certified-summary' ? 'block' : 'none';
       document.getElementById('view-all-hospitals').style.display = currentTab === 'all-hospitals' ? 'block' : 'none';
       document.getElementById('view-instructions').style.display = currentTab === 'instructions' ? 'block' : 'none';
 
@@ -1848,6 +1869,8 @@
         renderChecklistTable();
       } else if (currentTab === 'ssj-verify') {
         renderSsjVerifyView();
+      } else if (currentTab === 'certified-summary') {
+        renderCertifiedSummary();
       } else if (currentTab === 'summary') {
         renderSummaryTable();
       } else if (currentTab === 'all-hospitals') {
@@ -2665,6 +2688,81 @@
 
     function closeFileModal() {
       document.getElementById('file-modal').classList.remove('open');
+    }
+
+    function calculateCertifiedSummary(hospId) {
+      const state = hospitalState[hospId];
+      const byTopic = TOPICS.map(topic => {
+        const row = {topic, expected: 0, assessed: 0, approved: 0, revision: 0, rejected: 0, pending: 0, scored: 0, score: 0, maxScore: 0, approvedNA: 0, missingScores: 0};
+        CHECKLIST_ITEMS.filter(item => item.topic === topic && !item.isSubHeader).forEach(item => {
+          const value = state.items[item.seq];
+          row.expected++;
+          if (value.result !== '') row.assessed++;
+          if (value.ssjStatus === 'รับรองผล') {
+            row.approved++;
+            const score = getScoreFromResult(value.result);
+            if (typeof score === 'number') { row.scored++; row.score += score; row.maxScore += 2; }
+            else if (score === 'N/A') row.approvedNA++;
+            else row.missingScores++;
+          } else if (value.ssjStatus === 'ให้แก้ไข/เพิ่มเติมหลักฐาน') row.revision++;
+          else if (value.ssjStatus === 'ไม่รับรองผล') row.rejected++;
+          else row.pending++;
+        });
+        return row;
+      });
+      const total = {topic: 'ภาพรวมหลังตรวจรับรอง', expected: 0, assessed: 0, approved: 0, revision: 0, rejected: 0, pending: 0, scored: 0, score: 0, maxScore: 0, approvedNA: 0, missingScores: 0};
+      byTopic.forEach(row => Object.keys(total).filter(key => key !== 'topic').forEach(key => total[key] += row[key]));
+      [...byTopic, total].forEach(row => {
+        row.percent = row.maxScore > 0 ? row.score / row.maxScore * 100 : null;
+        row.grade = row.percent === null ? null : getGradeLabel(row.percent);
+      });
+      return {byTopic, total};
+    }
+
+    function renderCertifiedSummary() {
+      const state = hospitalState[currentHospitalId];
+      const hospital = TRANG_HOSPITALS.find(item => item.id === currentHospitalId);
+      const summary = calculateCertifiedSummary(currentHospitalId);
+      const meta = document.getElementById('certified-summary-meta');
+      meta.replaceChildren();
+      [['โรงพยาบาล', hospital.name], ['รอบการประเมิน', state.evalRound || '-'], ['ผู้ตรวจรับรอง', state.ssjInspector || '-'], ['วันที่ตรวจรับรอง', state.ssjInspectDate || '-']].forEach(([label, value]) => {
+        const entry = document.createElement('div');
+        const title = document.createElement('strong'); title.textContent = label + ': ';
+        entry.append(title, document.createTextNode(value)); meta.appendChild(entry);
+      });
+      const total = document.getElementById('certified-summary-total');
+      const topics = document.getElementById('certified-summary-topics');
+      total.replaceChildren(); topics.replaceChildren();
+      const renderCard = (row, isTotal) => {
+        const card = document.createElement('article');
+        card.className = 'review-summary-card' + (isTotal ? ' review-summary-total' : '');
+        const heading = document.createElement('h3'); heading.textContent = row.topic; card.appendChild(heading);
+        const metrics = document.createElement('div'); metrics.className = 'review-summary-metrics';
+        const values = [
+          ['ประเมินตนเองแล้ว', row.assessed + ' / ' + row.expected + ' ข้อ'],
+          ['สสจ. รับรองผลแล้ว', row.approved + ' / ' + row.expected + ' ข้อ'],
+          ['รอตรวจรับรอง', row.pending + ' ข้อ'],
+          ['ให้แก้ไข/เพิ่มเติมหลักฐาน', row.revision + ' ข้อ'],
+          ['ไม่รับรองผล', row.rejected + ' ข้อ'],
+          ['คะแนนเฉพาะข้อที่รับรอง', row.scored ? row.score + ' / ' + row.maxScore : 'ยังไม่มีคะแนนที่รับรอง'],
+          ['ร้อยละเฉพาะข้อที่รับรอง', row.percent === null ? '-' : row.percent.toFixed(2) + '%'],
+          ['แปลผลเฉพาะข้อที่รับรอง', row.grade ? row.grade.text : '-']
+        ];
+        values.forEach(([label, value]) => {
+          const group = document.createElement('dl');
+          const term = document.createElement('dt'); term.textContent = label;
+          const detail = document.createElement('dd'); detail.textContent = value;
+          group.append(term, detail); metrics.appendChild(group);
+        });
+        card.appendChild(metrics);
+        const note = document.createElement('p'); note.className = 'review-summary-footnote';
+        note.textContent = (row.approved === row.expected ? 'รับรองครบทุกข้อ' : 'ยังรับรองไม่ครบทุกข้อ ผลคะแนนนี้เป็นผลเฉพาะส่วนที่รับรองแล้ว') +
+          ' • รับรองข้อไม่เกี่ยวข้อง (N/A) ' + row.approvedNA + ' ข้อ ไม่นับคะแนนเต็ม' +
+          (row.missingScores ? ' • มี ' + row.missingScores + ' ข้อที่รับรองแล้วแต่ยังไม่ระบุผลประเมิน จึงยังไม่คิดคะแนน' : '');
+        card.appendChild(note); return card;
+      };
+      total.appendChild(renderCard(summary.total, true));
+      summary.byTopic.forEach(row => topics.appendChild(renderCard(row, false)));
     }
 
     // Render Tab 2: สรุปผลประเมิน

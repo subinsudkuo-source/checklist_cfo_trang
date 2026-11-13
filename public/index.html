@@ -984,8 +984,7 @@
     .fit-screen-table tbody td:nth-child(2)::before { display: none; }
     #checklist-tbody td:nth-child(3), #checklist-tbody td:nth-child(4),
     #checklist-tbody td:nth-child(7), #checklist-tbody td:nth-child(8),
-    #checklist-tbody td:nth-child(9), #checklist-tbody td:nth-child(10),
-    #checklist-tbody td:nth-child(11) { grid-column: span 6; }
+    #checklist-tbody td:nth-child(9) { grid-column: span 6; }
     #checklist-tbody td:nth-child(6) { grid-column: span 2; }
     #ssj-tbody td:nth-child(4) { grid-column: span 8; }
     #ssj-tbody td:nth-child(5) { grid-column: 1 / -1; }
@@ -1128,8 +1127,6 @@
               <th style="min-width: 190px;">ข้อค้นพบ/รายละเอียด</th>
               <th style="min-width: 190px;">มาตรการแก้ไข/พัฒนา</th>
               <th style="min-width: 190px;">ผู้รับผิดชอบและกำหนดแล้วเสร็จ</th>
-              <th class="ssj-col-header" style="min-width: 185px;">การรับรองของ สสจ.<br><span style="font-weight:400;font-size:var(--fs-small);">(ตรวจหลักฐานแนบ)</span></th>
-              <th class="ssj-col-header" style="min-width: 220px;">ข้อเสนอแนะของ สสจ.<br><span style="font-weight:400;font-size:var(--fs-small);">(ลงตรวจราชการระดับจังหวัด)</span></th>
             </tr>
           </thead>
           <tbody id="checklist-tbody"></tbody>
@@ -2132,14 +2129,14 @@
           const groupTr = document.createElement('tr');
           groupTr.className = 'topic-group-row';
           const groupTd = document.createElement('td');
-          groupTd.colSpan = 11;
+          groupTd.colSpan = 9;
           groupTd.textContent = `ประเด็นกำกับติดตาม: ${item.topic}`;
           groupTr.appendChild(groupTd);
           tbody.appendChild(groupTr);
         }
 
         if (item.isSubHeader) {
-          appendAssessmentHeading(tbody, item, 11);
+          appendAssessmentHeading(tbody, item, 9);
           return;
         }
 
@@ -2335,44 +2332,6 @@
         tr.appendChild(tdFinding);
         tr.appendChild(tdMeasure);
         tr.appendChild(tdResp);
-
-        // 10. การรับรองของ สสจ. (หลังตรวจหลักฐานแนบ)
-        const tdSsjStatus = document.createElement('td');
-        tdSsjStatus.className = 'ssj-cell';
-        const selSsj = document.createElement('select');
-        selSsj.className = 'select';
-        selSsj.setAttribute('aria-label', `การรับรองของ สสจ. ข้อ ${item.seq}`);
-        const ssjOptions = [
-          { value: '', label: '-- รอตรวจรับรอง --' },
-          { value: 'รับรองผล', label: 'รับรองผล (หลักฐานครบถ้วน)' },
-          { value: 'ให้แก้ไข/เพิ่มเติมหลักฐาน', label: 'ให้แก้ไข/เพิ่มเติมหลักฐาน' },
-          { value: 'ไม่รับรองผล', label: 'ไม่รับรองผล' }
-        ];
-        ssjOptions.forEach(o => {
-          const opt = document.createElement('option');
-          opt.value = o.value;
-          opt.textContent = o.label;
-          selSsj.appendChild(opt);
-        });
-        selSsj.value = itemState.ssjStatus || '';
-        selSsj.addEventListener('change', (e) => {
-          itemState.ssjStatus = e.target.value;
-        });
-        tdSsjStatus.appendChild(selSsj);
-        tr.appendChild(tdSsjStatus);
-
-        // 11. ข้อเสนอแนะของ สสจ. (ลงตรวจราชการระดับจังหวัด)
-        const tdSsjComment = document.createElement('td');
-        tdSsjComment.className = 'ssj-cell';
-        const taSsj = document.createElement('textarea');
-        taSsj.className = 'textarea';
-        taSsj.placeholder = 'ระบุข้อเสนอแนะของ สสจ. เมื่อลงตรวจราชการระดับจังหวัด';
-        taSsj.value = itemState.ssjComment || '';
-        taSsj.addEventListener('input', (e) => {
-          itemState.ssjComment = e.target.value;
-        });
-        tdSsjComment.appendChild(taSsj);
-        tr.appendChild(tdSsjComment);
 
         tbody.appendChild(tr);
       });

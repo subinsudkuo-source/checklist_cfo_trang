@@ -1671,8 +1671,8 @@
       if (st.submitted) {
         banner.classList.add('submitted');
         const infoDiv = document.createElement('div');
-        infoDiv.innerHTML = `<strong>ส่งแบบประเมินเรียบร้อยแล้ว:</strong> ${hospObj ? hospObj.name : ''} — บันทึกส่งเมื่อ ${st.submittedAt} (ประเมินแล้ว ${sum.total.count} ข้อ | คะแนน ${sum.total.score}/${sum.total.maxScore} คิดเป็น ${sum.total.percent.toFixed(2)}% | แนบเอกสาร ${sum.total.itemsWithFiles} ข้อ)` +
-          (st.submitWarning ? `<div style="margin-top:4px;color:var(--partial-ink);font-weight:600;">${st.submitWarning}</div>` : '');
+        infoDiv.innerHTML = `<strong>ส่งแบบประเมินเรียบร้อยแล้ว:</strong> ${hospObj ? hospObj.name : ''} — บันทึกส่งเมื่อ ${escapeHtml(st.submittedAt)} (ประเมินแล้ว ${sum.total.count} ข้อ | คะแนน ${sum.total.score}/${sum.total.maxScore} คิดเป็น ${sum.total.percent.toFixed(2)}% | แนบเอกสาร ${sum.total.itemsWithFiles} ข้อ)` +
+          (st.submitWarning ? `<div style="margin-top:4px;color:var(--partial-ink);font-weight:600;">${escapeHtml(st.submitWarning)}</div>` : '');
 
         const actionsWrap = document.createElement('div');
         actionsWrap.style.display = 'flex';
@@ -2434,9 +2434,9 @@
           tdHospNotes.textContent = '-';
         } else {
           tdHospNotes.innerHTML = `
-            <div><strong>ข้อค้นพบ:</strong> ${itemState.finding || '-'}</div>
-            <div style="margin-top:4px;"><strong>มาตรการแก้ไข:</strong> ${itemState.measure || '-'}</div>
-            <div style="margin-top:4px;"><strong>ผู้รับผิดชอบ:</strong> ${itemState.responsible || '-'}</div>
+            <div><strong>ข้อค้นพบ:</strong> ${escapeHtml(itemState.finding || '-')}</div>
+            <div style="margin-top:4px;"><strong>มาตรการแก้ไข:</strong> ${escapeHtml(itemState.measure || '-')}</div>
+            <div style="margin-top:4px;"><strong>ผู้รับผิดชอบ:</strong> ${escapeHtml(itemState.responsible || '-')}</div>
           `;
         }
         tr.appendChild(tdHospNotes);
@@ -2737,6 +2737,9 @@
       });
     }
 
+    function escapeHtml(value) {
+      return String(value || '').replace(/[&<>"']/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
+    }
     initUI();
   </script>
 <script src="/cloud.js"></script>

@@ -13,12 +13,23 @@ test('certified summary uses only accepted numeric results and preserves self as
   values['7'].ssjStatus='รับรองผล';
   ({certified:calculateCertifiedSummary('hosp-1'),self:calculateHospitalSummary('hosp-1')});
  `,c);
- const t=result.certified.total;assert.equal(t.expected,43);assert.equal(t.assessed,6);assert.equal(t.approved,4);
- assert.equal(t.revision,1);assert.equal(t.rejected,1);assert.equal(t.pending,37);
+ const t=result.certified.total;assert.equal(t.expected,42);assert.equal(t.assessed,6);assert.equal(t.approved,4);
+ assert.equal(t.revision,1);assert.equal(t.rejected,1);assert.equal(t.pending,36);
  assert.equal(t.score,3);assert.equal(t.maxScore,4);assert.equal(t.percent,75);assert.equal(t.grade.text,'พอใช้');
  assert.equal(t.approvedNA,1);assert.equal(t.missingScores,1);assert.equal(result.self.total.score,7);assert.equal(result.self.total.maxScore,10);
  assert.equal(result.certified.byTopic.reduce((n,row)=>n+row.score,0),t.score);
 });
 test('no certifications means no score or grade, with all assessable items pending',()=>{
- const t=vm.runInContext("calculateCertifiedSummary('hosp-2').total",context());assert.equal(t.expected,43);assert.equal(t.pending,43);assert.equal(t.scored,0);assert.equal(t.percent,null);assert.equal(t.grade,null);
+ const t=vm.runInContext("calculateCertifiedSummary('hosp-2').total",context());assert.equal(t.expected,42);assert.equal(t.pending,42);assert.equal(t.scored,0);assert.equal(t.percent,null);assert.equal(t.grade,null);
+});
+test('removed item 12 is absent from the form and legacy results do not affect either summary',()=>{
+ const r=vm.runInContext(`
+  hospitalState['hosp-1'].items['12']={result:'ผ่าน',files:[{name:'legacy'}],ssjStatus:'รับรองผล',ssjComment:''};
+  hospitalState['hosp-1'].items['13'].result='ผ่าน';
+  hospitalState['hosp-1'].items['13'].ssjStatus='รับรองผล';
+  ({removed:!CHECKLIST_ITEMS.some(item=>item.seq==='12'),next:CHECKLIST_ITEMS.find(item=>item.seq==='13').text,self:calculateHospitalSummary('hosp-1').total,certified:calculateCertifiedSummary('hosp-1').total});
+ `,context());
+ assert.equal(r.removed,true);assert.ok(r.next.startsWith('2.7'));
+ assert.equal(r.self.count,1);assert.equal(r.self.score,2);assert.equal(r.self.totalFilesCount,0);
+ assert.equal(r.certified.approved,1);assert.equal(r.certified.score,2);assert.equal(r.certified.expected,42);
 });

@@ -115,7 +115,7 @@ function upload_(req,props) {
 function safeCell_(v) { return typeof v==='string' && /^[=+@-]/.test(v)?"'"+v:v; }
 function project_(ss,id,state,version) {
   const rows=SCHEMA.items.map(i=>{ const v=state.items[i.seq]; const score=v.result==='ผ่าน'?2:v.result==='ดำเนินการบางส่วน'?1:v.result==='ไม่ผ่าน'?0:v.result==='ไม่เกี่ยวข้อง'?'N/A':'';
-    return [i.seq,i.topic,i.text,i.evidence,v.result,score,v.finding,v.measure,v.responsible,v.ssjStatus,v.ssjComment,v.files.map(f=>f.url).join('\n')].map(safeCell_); });
+    return [i.displaySeq || i.seq,i.topic,i.text,i.evidence,v.result,score,v.finding,v.measure,v.responsible,v.ssjStatus,v.ssjComment,v.files.map(f=>f.url).join('\n')].map(safeCell_); });
   ss.getSheetByName(id).getRange(2,1,rows.length,DATA_HEADERS.length).setValues(rows).setWrap(true).setVerticalAlignment('top');
   const index=SCHEMA.hospitals.findIndex(h=>h.id===id);
   ss.getSheetByName('โรงพยาบาล').getRange(index+2,5,1,8).setValues([[state.evalDate,state.evalRound,state.evaluator,state.ssjInspector,state.ssjInspectDate,state.submitted?'ส่งแล้ว':'ร่าง',state.submittedAt,version].map(safeCell_)]);

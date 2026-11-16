@@ -29,7 +29,7 @@ test('removed item 12 is absent from the form and legacy results do not affect e
   hospitalState['hosp-1'].items['13'].ssjStatus='รับรองผล';
   ({removed:!CHECKLIST_ITEMS.some(item=>item.seq==='12'),next:CHECKLIST_ITEMS.find(item=>item.seq==='13').text,self:calculateHospitalSummary('hosp-1').total,certified:calculateCertifiedSummary('hosp-1').total});
  `,context());
- assert.equal(r.removed,true);assert.ok(r.next.startsWith('2.7'));
+ assert.equal(r.removed,true);assert.ok(r.next.startsWith('2.6'));
  assert.equal(r.self.count,1);assert.equal(r.self.score,2);assert.equal(r.self.totalFilesCount,0);
  assert.equal(r.certified.approved,1);assert.equal(r.certified.score,2);assert.equal(r.certified.expected,42);
 });

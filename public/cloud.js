@@ -1,7 +1,8 @@
 // Loaded after the original UI. Database secrets stay in the Vercel function.
 let cloudReady=false,cloudBusy=false,cloudVersions={},cloudDirty=new Map(),cloudTimer;
 const cloudStatus=document.getElementById('cloud-status');
-const cloudOverlay=document.getElementById('cloud-login');
+const cloudContent=Array.from(document.querySelectorAll('.container > :not(:first-child)'));
+cloudContent.forEach(element=>element.inert=true);
 function cloudMessage(text,error=false) { cloudStatus.textContent=text; cloudStatus.style.color=error?'#b91c1c':'#0f5f5c'; }
 async function cloudApi(action,data={}) {
   const response=await fetch('/api/checklist',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({action,...data})});
@@ -13,7 +14,7 @@ async function cloudLoad() {
   const data=await cloudApi('load');
   Object.keys(hospitalState).forEach(id=>{ if(data.states[id]) hospitalState[id]=data.states[id]; });
   cloudVersions=data.versions; cloudDirty.clear(); cloudReady=true;
-  cloudOverlay.hidden=true; syncMetaInputs(); renderActiveView(); cloudMessage('เชื่อมต่อฐานข้อมูลแล้ว');
+  cloudContent.forEach(element=>element.inert=false); syncMetaInputs(); renderActiveView(); cloudMessage('เชื่อมต่อฐานข้อมูลแล้ว');
 }
 function markCloudDirty(id=currentHospitalId) {
   if(!cloudReady) return;
@@ -50,16 +51,6 @@ document.getElementById('cloud-backup').addEventListener('click',()=>{
   const blob=new Blob([JSON.stringify(hospitalState,null,2)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='checklist-backup-'+Date.now()+'.json';a.click();URL.revokeObjectURL(a.href);
 });
-document.getElementById('cloud-logout').addEventListener('click',async()=>{
-  if(cloudDirty.size||cloudBusy) { cloudMessage('กรุณาบันทึกหรือสำรองข้อมูลก่อนออกจากระบบ',true);return; }
-  await cloudApi('logout'); location.reload();
-});
-document.getElementById('cloud-login-form').addEventListener('submit',async event=>{
-  event.preventDefault(); const button=event.target.querySelector('button');button.disabled=true;
-  try { await cloudApi('login',{code:document.getElementById('cloud-code').value});await cloudLoad();document.getElementById('cloud-code').value=''; }
-  catch(error) { document.getElementById('cloud-login-error').textContent=error.message; }
-  finally {button.disabled=false;}
-});
 const originalSubmit=handleSubmitChecklist;
 handleSubmitChecklist=function(){originalSubmit();markCloudDirty();cloudSave();};
 // Existing listeners captured the original function; persist its state after each click.
@@ -89,6 +80,6 @@ openFileModal=function(item,file) {
 };
 window.addEventListener('beforeunload',event=>{if(cloudDirty.size||cloudBusy){event.preventDefault();event.returnValue='';}});
 cloudApi('health').then(async status=>{
-  if(!status.configured) {document.getElementById('cloud-login-error').textContent='ระบบกำลังรอตั้งค่า Apps Script และฐานข้อมูล';return;}
-  try {await cloudLoad();} catch { /* Show login form for a new or expired session. */ }
-}).catch(()=>{document.getElementById('cloud-login-error').textContent='ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้';});
+  if(!status.configured) {cloudMessage('ระบบกำลังรอตั้งค่าการเชื่อมต่อฐานข้อมูล',true);return;}
+  await cloudLoad();
+}).catch(error=>{cloudMessage(error.message||'ไม่สามารถเชื่อมต่อเซิร์ฟเวอร์ได้',true);});

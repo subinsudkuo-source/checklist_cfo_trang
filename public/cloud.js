@@ -77,7 +77,7 @@ handleFilesSelected=async function(seq,fileList) {
 const originalOpenFile=openFileModal;
 openFileModal=function(item,file) {
   originalOpenFile(item,file);
-  if(file.url && /^https:\/\/drive\.google\.com\//.test(file.url)) {
+  if(file.url && /^https:\/\/(?:drive|docs)\.google\.com\//.test(file.url)) {
     const link=document.createElement('a');link.href=file.url;link.target='_blank';link.rel='noopener noreferrer';link.className='btn btn-primary';link.textContent='เปิดไฟล์ใน Google Drive';
     document.getElementById('file-modal-body').appendChild(link);
   }

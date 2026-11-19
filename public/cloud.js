@@ -1,4 +1,6 @@
 // Loaded after the original UI. Database secrets stay in the Vercel function.
+import {uploadAttachment} from './upload.js';
+let cloudUploads=0;
 let cloudReady=false,cloudBusy=false,cloudVersions={},cloudDirty=new Map(),cloudTimer;
 const cloudStatus=document.getElementById('cloud-status');
 const cloudContent=Array.from(document.querySelectorAll('.container > :not(:first-child)'));
@@ -43,6 +45,7 @@ document.addEventListener('change',event=>{ if(event.target.matches('select') &&
 document.getElementById('ssj-approve-ready-btn')?.addEventListener('click',()=>markCloudDirty());
 document.getElementById('cloud-save').addEventListener('click',cloudSave);
 document.getElementById('cloud-reload').addEventListener('click',async()=>{
+  if(cloudUploads){cloudMessage('กรุณารอให้อัปโหลดไฟล์เสร็จก่อนโหลดข้อมูลล่าสุด',true);return;}
   if((cloudDirty.size||cloudBusy) && !confirm('มีข้อมูลยังไม่บันทึก ต้องการโหลดข้อมูลล่าสุดแทนที่ข้อมูลในหน้านี้หรือไม่?')) return;
   if(cloudBusy) return;
   try { await cloudLoad(); } catch(error) { cloudMessage(error.message,true); }
@@ -59,15 +62,16 @@ handleFilesSelected=async function(seq,fileList) {
   if(!cloudReady) return;
   const id=currentHospitalId;
   for(const file of Array.from(fileList||[])) {
-    if(file.size>3*1024*1024) {cloudMessage('แนบไฟล์ได้ไม่เกิน 3 MB ต่อไฟล์',true);continue;}
     if(!/\.(pdf|png|jpg|jpeg|webp|doc|docx|xls|xlsx|csv|txt|zip)$/i.test(file.name)) {cloudMessage('ชนิดไฟล์ไม่รองรับ',true);continue;}
+    if(hospitalState[id].items[seq].files.length>=30){cloudMessage('แนบเอกสารได้ไม่เกิน 30 ไฟล์ต่อข้อ',true);break;}
     cloudMessage('กำลังอัปโหลด '+file.name+'…');
+    cloudUploads++;
     try {
-      const data=await new Promise((resolve,reject)=>{const reader=new FileReader();reader.onload=()=>resolve(String(reader.result).split(',')[1]);reader.onerror=()=>reject(new Error('อ่านไฟล์ไม่สำเร็จ'));reader.readAsDataURL(file);});
-      const result=await cloudApi('upload',{hospitalId:id,seq,name:file.name,type:file.type,data,uploadId:crypto.randomUUID()});
-      hospitalState[id].items[seq].files.push(result.file);markCloudDirty(id);
+      const uploaded=await uploadAttachment(file,{hospitalId:id,seq},cloudApi,percent=>cloudMessage('กำลังอัปโหลด '+file.name+' '+percent+'%'));
+      hospitalState[id].items[seq].files.push(uploaded);markCloudDirty(id);
       if(currentHospitalId===id) renderActiveView();
     } catch(error) {cloudMessage(error.message,true);}
+    finally {cloudUploads--;}
   }
 };
 const originalOpenFile=openFileModal;
@@ -78,7 +82,7 @@ openFileModal=function(item,file) {
     document.getElementById('file-modal-body').appendChild(link);
   }
 };
-window.addEventListener('beforeunload',event=>{if(cloudDirty.size||cloudBusy){event.preventDefault();event.returnValue='';}});
+window.addEventListener('beforeunload',event=>{if(cloudDirty.size||cloudBusy||cloudUploads){event.preventDefault();event.returnValue='';}});
 cloudApi('health').then(async status=>{
   if(!status.configured) {cloudMessage('ระบบกำลังรอตั้งค่าการเชื่อมต่อฐานข้อมูล',true);return;}
   await cloudLoad();

@@ -7,9 +7,10 @@ export default async function handler(req,res) {
   if(!body || typeof body!=='object') return res.status(400).json({ok:false,error:'Invalid request'});
   const {action}=body;
   if(action==='health') return res.status(200).json({ok:true,configured:!!(process.env.APPS_SCRIPT_URL&&process.env.APPS_SCRIPT_SECRET)});
-  if(!['load','save','upload'].includes(action)) return res.status(400).json({ok:false,error:'Unknown action'});
+  if(!['load','save','upload','uploadStart','uploadChunk','uploadStatus'].includes(action)) return res.status(400).json({ok:false,error:'Unknown action'});
   if(!process.env.APPS_SCRIPT_URL || !process.env.APPS_SCRIPT_SECRET) return res.status(503).json({ok:false,error:'ยังไม่ได้เชื่อมต่อ Apps Script'});
-  if(JSON.stringify(body).length>4300000) return res.status(413).json({ok:false,error:'ไฟล์มีขนาดใหญ่เกินกำหนด'});
+  // Each upload request contains one chunk; total file size is not limited here.
+  if(JSON.stringify(body).length>4300000) return res.status(413).json({ok:false,error:'กรุณาส่งไฟล์เป็นส่วนย่อยแล้วลองใหม่'});
   // Stable ID 34 is displayed as section 33; only its subitems are assessable.
   if(action==='save' && body.state?.items?.['34']) {
     body={...body,state:{...body.state,items:{...body.state.items,

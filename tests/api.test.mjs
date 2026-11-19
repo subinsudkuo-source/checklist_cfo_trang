@@ -24,3 +24,11 @@ test('requests work without login or cookies and keep the backend secret server-
  }finally{globalThis.fetch=originalFetch;}
  const cross=response();await handler(req({action:'load'},{origin:'https://evil.test'}),cross);assert.equal(cross.statusCode,403);
 });
+
+test('proxy forwards bounded upload chunks without limiting the declared total file size',async()=>{
+ process.env.APPS_SCRIPT_SECRET='backend-only';process.env.APPS_SCRIPT_URL='https://script.google.com/test';
+ const originalFetch=globalThis.fetch;
+ globalThis.fetch=async(url,options)=>{const body=JSON.parse(options.body);assert.equal(body.secret,'backend-only');assert.ok(['uploadStart','uploadChunk','uploadStatus'].includes(body.action));return {ok:true,json:async()=>({ok:true,offset:0})};};
+ try{for(const action of ['uploadStart','uploadChunk','uploadStatus']){const res=response();await handler(req({action,size:10*1024*1024*1024,data:'YQ=='}),res);assert.equal(res.statusCode,200);}}
+ finally{globalThis.fetch=originalFetch;}
+});

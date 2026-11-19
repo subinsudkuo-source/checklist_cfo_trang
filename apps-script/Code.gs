@@ -64,6 +64,7 @@ function doPost(e) {
     const index=SCHEMA.hospitals.findIndex(h=>h.id===req.hospitalId);
     if(index<0) throw new Error('โรงพยาบาลไม่ถูกต้อง');
     if(req.action==='upload') return json_(upload_(req,props));
+    if(['uploadStart','uploadChunk','uploadStatus'].includes(req.action)) return json_(resumableUpload_(req,props));
     if(req.action!=='save') throw new Error('Unknown action');
     const sheet=ss.getSheetByName('_State'), row=index+2;
     const [id,version,updatedAt,stored]=sheet.getRange(row,1,1,4).getValues()[0];
@@ -104,8 +105,8 @@ function upload_(req,props) {
   if(!/^[a-zA-Z0-9-]{16,64}$/.test(req.uploadId||'')) throw new Error('Upload id invalid');
   const name=text_(req.name,250).replace(/[\\/\x00-\x1f]/g,'_');
   if(!/\.(pdf|png|jpg|jpeg|webp|doc|docx|xls|xlsx|csv|txt|zip)$/i.test(name)) throw new Error('ชนิดไฟล์ไม่รองรับ');
-  if(typeof req.data!=='string'||req.data.length>4200000||!/^[A-Za-z0-9+/]*={0,2}$/.test(req.data)) throw new Error('ไฟล์ไม่ถูกต้องหรือใหญ่เกิน 3 MB');
-  const bytes=Utilities.base64Decode(req.data); if(bytes.length>3*1024*1024) throw new Error('ขนาดไฟล์เกิน 3 MB');
+  if(typeof req.data!=='string'||req.data.length>4200000||!/^[A-Za-z0-9+/]*={0,2}$/.test(req.data)) throw new Error('กรุณาอัปโหลดไฟล์เป็นส่วนย่อย');
+  const bytes=Utilities.base64Decode(req.data);
   const hospital=DriveApp.getFolderById(JSON.parse(props.getProperty('FOLDER_IDS'))[req.hospitalId]);
   const matches=hospital.getFoldersByName('ข้อ '+req.seq); const folder=matches.hasNext()?matches.next():hospital.createFolder('ข้อ '+req.seq);
   const storedName=req.uploadId+'__'+name,existing=folder.getFilesByName(storedName);
@@ -119,4 +120,78 @@ function project_(ss,id,state,version) {
   ss.getSheetByName(id).getRange(2,1,rows.length,DATA_HEADERS.length).setValues(rows).setWrap(true).setVerticalAlignment('top');
   const index=SCHEMA.hospitals.findIndex(h=>h.id===id);
   ss.getSheetByName('โรงพยาบาล').getRange(index+2,5,1,8).setValues([[state.evalDate,state.evalRound,state.evaluator,state.ssjInspector,state.ssjInspectDate,state.submitted?'ส่งแล้ว':'ร่าง',state.submittedAt,version].map(safeCell_)]);
+}
+
+// Drive resumable sessions stay server-side; clients receive only an opaque upload ID.
+function authorizeLargeUploads() {
+  UrlFetchApp.fetch('https://www.googleapis.com/discovery/v1/apis/drive/v3/rest');
+}
+function uploadHeader_(response,name) {
+  const headers=response.getAllHeaders(),key=Object.keys(headers).find(k=>k.toLowerCase()===name.toLowerCase());
+  return key?String(headers[key]):'';
+}
+function uploadResult_(session) {
+  return {ok:true,offset:session.offset,chunkSize:1024*1024,done:!!session.file,file:session.file};
+}
+function uploadFileInfo_(file,name) {
+  return {id:file.getId(),name,size:file.getSize(),type:file.getMimeType(),url:file.getUrl()};
+}
+function uploadResponse_(response,session,key,props) {
+  const code=response.getResponseCode();
+  if(code===200||code===201) {
+    const metadata=JSON.parse(response.getContentText()),file=DriveApp.getFileById(metadata.id);
+    if(file.getSize()!==session.size) throw new Error('ขนาดไฟล์ที่อัปโหลดไม่ครบ กรุณาลองใหม่');
+    session.file=uploadFileInfo_(file,session.name);session.offset=session.size;
+  } else if(code===308) {
+    const range=uploadHeader_(response,'Range'),match=/^bytes=0-(\d+)$/.exec(range);
+    session.offset=match?Number(match[1])+1:0;
+    if(session.offset>session.size) throw new Error('ตำแหน่งอัปโหลดไม่ถูกต้อง');
+  } else if(code===404||code===410) {
+    props.deleteProperty(key);throw new Error('การอัปโหลดหมดอายุ กรุณาเลือกไฟล์ใหม่');
+  } else {
+    throw new Error(code===403?'Google Drive ไม่สามารถรับไฟล์ได้ กรุณาตรวจพื้นที่ว่างและสิทธิ์การใช้งาน':'อัปโหลดไม่สำเร็จ กรุณาลองใหม่');
+  }
+  props.setProperty(key,JSON.stringify(session));return uploadResult_(session);
+}
+function resumableUpload_(req,props) {
+  if(!SCHEMA.items.some(i=>i.seq===String(req.seq)&&!i.isSubHeader)) throw new Error('ข้อประเมินไม่ถูกต้อง');
+  if(!/^[a-zA-Z0-9-]{16,64}$/.test(req.uploadId||'')) throw new Error('Upload id invalid');
+  const key='UPLOAD_'+req.uploadId,stored=props.getProperty(key);
+  let session=stored?JSON.parse(stored):null;
+  if(session&&(session.hospitalId!==req.hospitalId||session.seq!==String(req.seq))) throw new Error('การอัปโหลดไม่ตรงกับโรงพยาบาลหรือข้อประเมิน');
+  if(session&&session.expires<Date.now()){props.deleteProperty(key);session=null;}
+  if(req.action==='uploadStart') {
+    const name=text_(req.name,250).replace(/[\\/\x00-\x1f]/g,'_');
+    if(!/\.(pdf|png|jpg|jpeg|webp|doc|docx|xls|xlsx|csv|txt|zip)$/i.test(name)) throw new Error('ชนิดไฟล์ไม่รองรับ');
+    if(!Number.isSafeInteger(req.size)||req.size<0) throw new Error('ขนาดไฟล์ไม่ถูกต้อง');
+    if(session){if(session.name!==name||session.size!==req.size)throw new Error('ข้อมูลไฟล์ไม่ตรงกับการอัปโหลดเดิม');return uploadResult_(session);}
+    Object.entries(props.getProperties()).forEach(([k,v])=>{if(k.startsWith('UPLOAD_')){try{if(JSON.parse(v).expires<Date.now())props.deleteProperty(k);}catch{props.deleteProperty(k);}}});
+    const hospital=DriveApp.getFolderById(JSON.parse(props.getProperty('FOLDER_IDS'))[req.hospitalId]);
+    const folders=hospital.getFoldersByName('ข้อ '+req.seq),folder=folders.hasNext()?folders.next():hospital.createFolder('ข้อ '+req.seq);
+    const storedName=req.uploadId+'__'+name,existing=folder.getFilesByName(storedName);
+    session={hospitalId:req.hospitalId,seq:String(req.seq),name,size:req.size,type:text_(req.type||'application/octet-stream',150),offset:0,expires:Date.now()+24*60*60*1000};
+    if(existing.hasNext()) {const file=existing.next();if(file.getSize()!==req.size)throw new Error('ข้อมูลไฟล์ไม่ตรงกัน');session.file=uploadFileInfo_(file,name);session.offset=req.size;}
+    else if(req.size===0) {session.file=uploadFileInfo_(folder.createFile(Utilities.newBlob([],session.type,storedName)),name);}
+    else {
+      const response=UrlFetchApp.fetch('https://www.googleapis.com/upload/drive/v3/files?uploadType=resumable&fields=id,size,mimeType,webViewLink',{
+        method:'post',contentType:'application/json',headers:{Authorization:'Bearer '+ScriptApp.getOAuthToken(),'X-Upload-Content-Type':session.type,'X-Upload-Content-Length':String(req.size)},
+        payload:JSON.stringify({name:storedName,mimeType:session.type,parents:[folder.getId()]}),muteHttpExceptions:true,followRedirects:false
+      });
+      const location=uploadHeader_(response,'Location');
+      if(response.getResponseCode()!==200||!/^https:\/\/www\.googleapis\.com\/upload\/drive\//.test(location))throw new Error('เริ่มอัปโหลด Google Drive ไม่สำเร็จ กรุณาตรวจสิทธิ์ Drive API');
+      session.url=location;
+    }
+    props.setProperty(key,JSON.stringify(session));return uploadResult_(session);
+  }
+  if(!session)throw new Error('ไม่พบการอัปโหลด กรุณาเลือกไฟล์ใหม่');
+  if(session.file)return uploadResult_(session);
+  if(req.action==='uploadStatus') {
+    return uploadResponse_(UrlFetchApp.fetch(session.url,{method:'put',headers:{'Content-Range':'bytes */'+session.size},payload:'',muteHttpExceptions:true,followRedirects:false}),session,key,props);
+  }
+  if(!Number.isSafeInteger(req.offset)||req.offset<0)throw new Error('ตำแหน่งอัปโหลดไม่ถูกต้อง');
+  if(req.offset!==session.offset)return uploadResult_(session);
+  if(typeof req.data!=='string'||req.data.length>1398104||!req.data.length||!/^[A-Za-z0-9+/]*={0,2}$/.test(req.data))throw new Error('ส่วนของไฟล์ไม่ถูกต้อง');
+  const bytes=Utilities.base64Decode(req.data),end=req.offset+bytes.length;
+  if(!bytes.length||bytes.length>1024*1024||end>session.size||(end<session.size&&bytes.length%(256*1024)!==0))throw new Error('ขนาดส่วนของไฟล์ไม่ถูกต้อง');
+  return uploadResponse_(UrlFetchApp.fetch(session.url,{method:'put',contentType:session.type,headers:{'Content-Range':'bytes '+req.offset+'-'+(end-1)+'/'+session.size},payload:bytes,muteHttpExceptions:true,followRedirects:false}),session,key,props);
 }
